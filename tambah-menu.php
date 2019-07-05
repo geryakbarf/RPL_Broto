@@ -1,3 +1,4 @@
+<?php include_once("functions.php"); ?>
 <?php
 session_start();
 if (!isset($_SESSION["nip"]))
@@ -8,6 +9,44 @@ if ($_SESSION["jabatan"] != "Koki") {
 
 }
 ?>
+<?php
+if (isset($_POST["TblSimpan"])) {
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        //bersihkan data
+        $nama = $db->escape_string(trim($_POST["nama"]));
+        $harga = $db->escape_string(trim($_POST["harga"]));
+        $status = $db->escape_string(trim($_POST["status"]));
+
+        //Mengecek apakah ada nama makanan Yang Sama
+        $sql1 = "SELECT * FROM menu WHERE nama_menu='$nama'";
+        $res1 = $db->query($sql1);
+        if (mysqli_num_rows($res1) > 0) {
+            echo "<script>
+                            alert('Menu Telah Ada!');
+                            </script>";
+        } else {
+
+            //Query Untuk Insert ke DB
+            $sql = "INSERT INTO menu(nama_menu,harga_menu,status) VALUES ('$nama',$harga,'$status')";
+            $res = $db->query($sql);
+            if ($res) {
+                if ($db->affected_rows > 0) {//Jika Data Berhasil Disimpan
+                    echo "<script>
+                            alert('Data Berhasil Disimpan');
+                            </script>";
+                } else {
+                    echo "<script>
+                            alert('Gagal Menyimpan Data :(');
+                            </script>";
+                }
+            }
+        }
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -168,24 +207,29 @@ if ($_SESSION["jabatan"] != "Koki") {
             <div class="container-fluid">
                 <h3 class="text-dark mb-1">Tambah Menu<br><br></h3>
             </div>
-            <form name="f" method="post" action="proses/proses-tambah-menu.php">
-            <div class="input-group" style="margin-left: 20px;">
-                <div class="input-group-prepend"><span class="input-group-text icon-container"><i
-                                class="fa fa-align-justify"></i></span></div>
-                <input type="text" class="form-control" name="nama" placeholder="Nama Menu" style="margin-right: 60px;" required></div>
-            <div class="input-group" style="margin-left: 20px;">
-                <div class="input-group-prepend"><span class="input-group-text icon-container"><i
-                                class="fa fa-align-justify"></i></span></div>
-                <input type="text" class="form-control" name="harga" placeholder="Harga Menu" style="margin-right: 60px;" required></div>
+            <form name="f" method="post" action="tambah-menu.php">
+                <div class="input-group" style="margin-left: 20px;">
+                    <div class="input-group-prepend"><span class="input-group-text icon-container"><i
+                                    class="fa fa-align-justify"></i></span></div>
+                    <input type="text" class="form-control" name="nama" placeholder="Nama Menu"
+                           style="margin-right: 60px;" required></div>
+                <div class="input-group" style="margin-left: 20px;">
+                    <div class="input-group-prepend"><span class="input-group-text icon-container"><i
+                                    class="fa fa-align-justify"></i></span></div>
+                    <input type="text" class="form-control" name="harga" placeholder="Harga Menu"
+                           style="margin-right: 60px;" required></div>
 
-                <div class="field"><select class="form-control" name="status" style="margin-right: 0px;margin-left: 20px;width: 910px;">
+                <div class="field"><select class="form-control" name="status"
+                                           style="margin-right: 0px;margin-left: 20px;width: 910px;">
                         <optgroup label="Pilih Status Menu">
                             <option value="Tersedia" selected="">Tersedia</option>
                             <option value="Tidak Tersedia">Tidak Tersedia</option>
                         </optgroup>
                     </select><label class="mb-0"
                                     for="float-input" style="margin-left: 20px;">Status</label></div>
-                <button class="btn btn-primary" name="TblSimpan" type="submit" style="margin-top: 20px;margin-right: 40px;">Simpan</button>
+                <button class="btn btn-primary" name="TblSimpan" type="submit"
+                        style="margin-top: 20px;margin-right: 40px;">Simpan
+                </button>
             </form>
 
         </div>

@@ -1,4 +1,3 @@
-<?php include_once("../functions.php"); ?>
 <?php
 if (isset($_POST["TblSimpan"])) {
     $db = dbConnect();
@@ -11,8 +10,10 @@ if (isset($_POST["TblSimpan"])) {
         //Mengecek apakah ada nama makanan Yang Sama
         $sql1 = "SELECT * FROM menu WHERE nama_menu='$nama'";
         $res1 = $db->query($sql1);
-        if(mysqli_num_rows($res1)>0){
-            echo "Masa di restoran ada nama makanan yang sama banget :(";
+        if (mysqli_num_rows($res1) > 0) {
+            echo "<script>
+                            alert('Menu Telah Ada!');
+                            </script>";
         } else {
 
             //Query Untuk Insert ke DB
@@ -20,9 +21,13 @@ if (isset($_POST["TblSimpan"])) {
             $res = $db->query($sql);
             if ($res) {
                 if ($db->affected_rows > 0) {//Jika Data Berhasil Disimpan
-                    echo "Data Berhasil Disimpan";
-                }else{
-                    echo "Data Gagal Disimpan :(";
+                    echo "<script>
+                            alert('Data Berhasil Disimpan');
+                            </script>";
+                } else {
+                    echo "<script>
+                            alert('Gagal Menyimpan Data :(');
+                            </script>";
                 }
             }
         }
