@@ -1,4 +1,4 @@
-<?php include_once("functions.php");?>
+<?php include_once("../functions.php");?>
 <?php
 $db=dbConnect();
 if($db->connect_errno==0){
@@ -15,15 +15,15 @@ if($db->connect_errno==0){
 				$_SESSION["nip"]=$data["nip"];
 				$_SESSION["jabatan"]=$data["jabatan"];
 				$_SESSION["nama"]=$data["nama"];
-				header("Location: index.php");
+				header("Location: ../index.php");
 			}
 			else
-				header("Location: login.php?error=1");
+				header("Location: ../login.php?error=1");
 		}
 	}
 	else
-		header("Location: login.php?error=2");
+		header("Location: ../login.php?error=2");
 }
 else
-	header("Location: login.php?error=3");
+	header("Location: ../login.php?error=3");
 ?>

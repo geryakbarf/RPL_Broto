@@ -157,7 +157,7 @@ if ($_SESSION["jabatan"] != "Koki") {
                                             class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity
                                     log</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" role="presentation" href="proses-logout.php"><i
+                                <a class="dropdown-item" role="presentation" href="proses/proses-logout.php"><i
                                             class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Keluar</a>
                             </div>
                         </li>
@@ -168,25 +168,26 @@ if ($_SESSION["jabatan"] != "Koki") {
             <div class="container-fluid">
                 <h3 class="text-dark mb-1">Tambah Menu<br><br></h3>
             </div>
+            <form name="f" method="post" action="proses/proses-tambah-menu.php">
             <div class="input-group" style="margin-left: 20px;">
                 <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                 class="fa fa-align-justify"></i></span></div>
-                <input type="text" class="form-control" placeholder="Nama Menu" style="margin-right: 60px;"></div>
+                <input type="text" class="form-control" name="nama" placeholder="Nama Menu" style="margin-right: 60px;" required></div>
             <div class="input-group" style="margin-left: 20px;">
                 <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                 class="fa fa-align-justify"></i></span></div>
-                <input type="text" class="form-control" placeholder="Harga Menu" style="margin-right: 60px;"></div>
-            <form>
-                <div class="field"><select class="form-control"
-                                           style="margin-right: 0px;margin-left: 20px;width: 910px;">
+                <input type="text" class="form-control" name="harga" placeholder="Harga Menu" style="margin-right: 60px;" required></div>
+
+                <div class="field"><select class="form-control" name="status" style="margin-right: 0px;margin-left: 20px;width: 910px;">
                         <optgroup label="Pilih Status Menu">
-                            <option value="1" selected="">Tersedia</option>
-                            <option value="0">Tidak Tersedia</option>
+                            <option value="Tersedia" selected="">Tersedia</option>
+                            <option value="Tidak Tersedia">Tidak Tersedia</option>
                         </optgroup>
                     </select><label class="mb-0"
                                     for="float-input" style="margin-left: 20px;">Status</label></div>
+                <button class="btn btn-primary" name="TblSimpan" type="submit" style="margin-top: 20px;margin-right: 40px;">Simpan</button>
             </form>
-            <button class="btn btn-primary" type="button" style="margin-top: 20px;margin-right: 40px;">Simpan</button>
+
         </div>
         <footer class="bg-white sticky-footer">
             <div class="container my-auto">
