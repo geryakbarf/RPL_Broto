@@ -7,7 +7,7 @@ $username = $_SESSION["nama"];
 if ($_SESSION["jabatan"] != "Koki") {
     header("Location: menu.php");
 
-}
+}   
 ?>
 <?php
 if (isset($_POST["TblSimpan"])) {
@@ -23,8 +23,8 @@ if (isset($_POST["TblSimpan"])) {
         $res1 = $db->query($sql1);
         if (mysqli_num_rows($res1) > 0) {
             echo "<script>
-                            alert('Menu Telah Ada!');
-                            </script>";
+                  alert('Menu Telah Ada!');
+                  </script>";
         } else {
 
             //Query Untuk Insert ke DB
