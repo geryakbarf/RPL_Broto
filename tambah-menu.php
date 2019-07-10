@@ -7,13 +7,14 @@ $username = $_SESSION["nama"];
 if ($_SESSION["jabatan"] != "Koki") {
     header("Location: menu.php");
 
-}   
+}
 ?>
 <?php
 if (isset($_POST["TblSimpan"])) {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         //bersihkan data
+        $id = $db->escape_string(trim($_POST["id"]));
         $nama = $db->escape_string(trim($_POST["nama"]));
         $harga = $db->escape_string(trim($_POST["harga"]));
         $status = $db->escape_string(trim($_POST["status"]));
@@ -208,6 +209,11 @@ if (isset($_POST["TblSimpan"])) {
                 <h3 class="text-dark mb-1">Tambah Menu<br><br></h3>
             </div>
             <form name="f" method="post" action="tambah-menu.php">
+                <div class="input-group" style="margin-left: 20px;">
+                    <div class="input-group-prepend"><span class="input-group-text icon-container"><i
+                                    class="fa fa-align-justify"></i></span></div>
+                    <input type="text" name="id" class="form-control" placeholder="Id Menu" style="margin-right: 60px;" required>
+                </div>
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-align-justify"></i></span></div>
