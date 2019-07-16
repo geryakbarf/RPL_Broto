@@ -1,8 +1,13 @@
-	<?php 
+<?php include_once("functions.php"); ?>
+<?php
 session_start();
-if(!isset($_SESSION["nip"]))
-	header("Location: login.php");
-$username=$_SESSION["nama"];
+if (!isset($_SESSION["nip"])) {
+    header("Location: login.php");
+}
+if ($_SESSION["jabatan"] != "Pelayan") {
+    header("Location: index.php");
+}
+$username = $_SESSION["nama"];
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,7 +15,7 @@ $username=$_SESSION["nama"];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Dashboard - Brand</title>
+    <title>Profile - Brand</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -46,7 +51,7 @@ $username=$_SESSION["nama"];
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                         <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Cari...">
+                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
                                 <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
                             </div>
                         </form>
@@ -96,88 +101,41 @@ $username=$_SESSION["nama"];
                             </li>
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow" role="presentation">
-                                <li class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo$username ?></span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar4.jpeg"></a>
+                                <li class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small">Valerie Luna</span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
                                     <div
                                         class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
                                         <a
                                             class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a>
-                                            <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="proses/proses-logout.php"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Keluar</a></div>
+                                            <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a></div>
                     </li>
                     </li>
                     </ul>
             </div>
             </nav>
             <div class="container-fluid">
-                <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                    <h3 class="text-dark mb-0">Beranda</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Buat Laporan</a></div>
-                <div class="row">
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-primary py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span>pemasukan (Bulanan)</span></div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>Rp. 100.000.000</span></div>
-                                    </div>
-                                    <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-success py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>pengeluaran (bulanan)</span></div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>Rp. 34.000.000</span></div>
-                                    </div>
-                                    <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-info py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Meja tersedia</span></div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>6</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto"><i class="fas fa-tablet fa-2x text-gray-300"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-warning py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>Pesanan belum diproses</span></div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>5</span></div>
-                                    </div>
-                                    <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h3 class="text-dark mb-4">Reservasi</h3>
             </div>
-        </div>
-        <footer class="bg-white sticky-footer">
+            <div class="input-group" style="margin-right: 20px;margin-left: 20px;">
+                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="fas fa-envelope"></i></span></div><input type="text" class="form-control" placeholder="Id Reservasi" style="margin-right: 60px;"></div>
+            <div class="input-group" style="margin-right: 20px;margin-left: 20px;">
+                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="far fa-user"></i></span></div><input type="text" class="form-control" placeholder="Nama Pemesan" style="margin-right: 60px;"></div>
+            <div class="input-group" style="margin-right: 20px;margin-left: 20px;">
+                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="fa fa-users"></i></span></div><input type="text" class="form-control" placeholder="Jumlah Pemesan" style="margin-right: 60px;"></div>
+            <h3 class="text-dark mb-4" style="margin-left: 20px;margin-bottom: 0px;">Tanggal Reservasi</h3>
+            <div class="input-group" style="margin-left: 20px;margin-right: 20px;">
+                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="far fa-calendar-times"></i></span></div><input type="date"><input type="time"></div> <a href="tambah-pesanan.php"><button class="btn btn-primary" type="button" style="margin-right: 40px;">Lanjut</button></div>
+        <footer
+            class="bg-white sticky-footer">
             <div class="container my-auto">
                 <div class="text-center my-auto copyright"><span>Copyright © RamenKu 2019</span></div>
             </div>
-        </footer>
+            </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-1.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-2.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
     <script src="assets/js/Studious-selectbox.js"></script>
     <script src="assets/js/theme.js"></script>

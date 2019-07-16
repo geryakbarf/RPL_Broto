@@ -1,8 +1,10 @@
 <?php
+include_once ("../functions.php");
 if (isset($_POST["TblSimpan"])) {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         //bersihkan data
+        $id = $db->escape_string(trim($_POST["id"]));
         $nama = $db->escape_string(trim($_POST["nama"]));
         $harga = $db->escape_string(trim($_POST["harga"]));
         $status = $db->escape_string(trim($_POST["status"]));
@@ -14,24 +16,24 @@ if (isset($_POST["TblSimpan"])) {
             echo "<script>
                             alert('Menu Telah Ada!');
                             </script>";
+            header("Location: tambah-menu.php");
         } else {
 
             //Query Untuk Insert ke DB
-            $sql = "INSERT INTO menu(nama_menu,harga_menu,status) VALUES ('$nama',$harga,'$status')";
+            $sql = "INSERT INTO menu(id_menu,nama_menu,harga_menu,status) VALUES ('$id','$nama',$harga,'$status')";
             $res = $db->query($sql);
             if ($res) {
                 if ($db->affected_rows > 0) {//Jika Data Berhasil Disimpan
-                    echo "<script>
-                            alert('Data Berhasil Disimpan');
-                            </script>";
+                    header("Location: ../menu.php");
                 } else {
-                    echo "<script>
-                            alert('Gagal Menyimpan Data :(');
-                            </script>";
+                    header("Location: ../tambah-menu.php");
                 }
+            }else{
+                header("Location: ../tambah-menu.php");
             }
         }
     }
-}
+} else
+    echo "Galat ! Data to Long"
 
 ?>

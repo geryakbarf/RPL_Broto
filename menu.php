@@ -1,8 +1,12 @@
 <?php include_once("functions.php"); ?>
 <?php
 session_start();
-if (!isset($_SESSION["nip"]))
+if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
+}
+if ($_SESSION["jabatan"] != "Koki" and $_SESSION["jabatan"] != "Pelayan") {
+    header("Location: index.php");
+}
 $username = $_SESSION["nama"];
 ?>
 <!DOCTYPE html>
@@ -28,40 +32,19 @@ $username = $_SESSION["nama"];
 <div id="wrapper">
     <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
         <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.php">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-hotel"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Resto Broto</span></div>
+            </a>
             <hr class="sidebar-divider my-0">
-            <ul class="nav navbar-nav text-light" id="accordionSidebar"></ul>
-            <div class="text-center d-none d-md-inline"></div>
-            <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
-                <div class="container-fluid d-flex flex-column p-0">
-                    <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
-                       href="index.php">
-                        <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-hotel"></i></div>
-                        <div class="sidebar-brand-text mx-3"><span>Resto Broto</span></div>
-                    </a>
-                    <hr class="sidebar-divider my-0">
-                    <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
-                                        class="fas fa-home"></i><span>Beranda</span></a><a class="nav-link active"
-                                                                                           href="menu.php"><i
-                                        class="fab fa-readme"></i><span>Menu</span></a><a class="nav-link"
-                                                                                          href="reservasi.html"><i
-                                        class="fas fa-table"></i><span>Reservasi</span></a>
-                            <a
-                                    class="nav-link" href="meja.html"><i class="fas fa-ticket-alt"></i><span>Meja</span></a><a
-                                    class="nav-link" href="pesanan.html"><i
-                                        class="fas fa-newspaper"></i><span>Pesanan</span></a><a class="nav-link"
-                                                                                                href="pembayaran.html"><i
-                                        class="fas fa-money-bill-alt"></i><span>Pembayan</span></a>
-                            <a
-                                    class="nav-link" href="kuisioner.html"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a><a
-                                    class="nav-link" href="dapur.html"><i
-                                        class="fas fa-warehouse"></i><span>Data Dapur</span></a></li>
-                    </ul>
-                    <div class="text-center d-none d-md-inline">
-                        <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
-                    </div>
-                </div>
-            </nav>
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i class="fas fa-home"></i><span>Beranda</span></a><a class="nav-link active" href="menu.php"><i class="fab fa-readme"></i><span>Menu</span></a><a class="nav-link" href="reservasi.php"><i class="fas fa-table"></i><span>Reservasi</span></a>
+                    <a
+                            class="nav-link" href="meja.php"><i class="fas fa-ticket-alt"></i><span>Meja</span></a><a class="nav-link" href="pesanan.php"><i class="fas fa-newspaper"></i><span>Pesanan</span></a><a class="nav-link" href="pembayaran.php"><i class="fas fa-money-bill-alt"></i><span>Pembayaran</span></a>
+                    <a
+                            class="nav-link" href="kuisioner.php"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a><a class="nav-link" href="dapur.php"><i class="fas fa-warehouse"></i><span>Data Dapur</span></a></li>
+            </ul>
+            <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
         </div>
     </nav>
     <div class="d-flex flex-column" id="content-wrapper">
@@ -206,7 +189,7 @@ $username = $_SESSION["nama"];
                                             <td><?php echo $barisdata["nama_menu"]; ?></td>
                                             <td><?php echo $barisdata["harga_menu"]; ?></td>
                                             <td><?php echo $barisdata["status"]; ?></td>
-                                            <td class="text-center">Edit | Hapus</td>
+                                            <td class="text-center"><a href="localhost/broto/menu-edit.php?id=<?php echo$barisdata["id_menu"]; ?>">Edit</a></td>
                                         </tr>
                                         <?php
                                     }

@@ -6,48 +6,9 @@ if (!isset($_SESSION["nip"]))
 $username = $_SESSION["nama"];
 if ($_SESSION["jabatan"] != "Koki") {
     header("Location: menu.php");
-
 }
+$randomId= getName(5);
 ?>
-<?php
-if (isset($_POST["TblSimpan"])) {
-    $db = dbConnect();
-    if ($db->connect_errno == 0) {
-        //bersihkan data
-        $id = $db->escape_string(trim($_POST["id"]));
-        $nama = $db->escape_string(trim($_POST["nama"]));
-        $harga = $db->escape_string(trim($_POST["harga"]));
-        $status = $db->escape_string(trim($_POST["status"]));
-
-        //Mengecek apakah ada nama makanan Yang Sama
-        $sql1 = "SELECT * FROM menu WHERE nama_menu='$nama'";
-        $res1 = $db->query($sql1);
-        if (mysqli_num_rows($res1) > 0) {
-            echo "<script>
-                  alert('Menu Telah Ada!');
-                  </script>";
-        } else {
-
-            //Query Untuk Insert ke DB
-            $sql = "INSERT INTO menu(nama_menu,harga_menu,status) VALUES ('$nama',$harga,'$status')";
-            $res = $db->query($sql);
-            if ($res) {
-                if ($db->affected_rows > 0) {//Jika Data Berhasil Disimpan
-                    echo "<script>
-                            alert('Data Berhasil Disimpan');
-                            </script>";
-                } else {
-                    echo "<script>
-                            alert('Gagal Menyimpan Data :(');
-                            </script>";
-                }
-            }
-        }
-    }
-}
-
-?>
-
 <!DOCTYPE html>
 <html>
 
@@ -71,39 +32,19 @@ if (isset($_POST["TblSimpan"])) {
 <div id="wrapper">
     <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
         <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.php">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-hotel"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Resto Broto</span></div>
+            </a>
             <hr class="sidebar-divider my-0">
-            <ul class="nav navbar-nav text-light" id="accordionSidebar"></ul>
-            <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
-                <div class="container-fluid d-flex flex-column p-0">
-                    <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
-                       href="index.php">
-                        <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-hotel"></i></div>
-                        <div class="sidebar-brand-text mx-3"><span>Resto Broto</span></div>
-                    </a>
-                    <hr class="sidebar-divider my-0">
-                    <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
-                                        class="fas fa-home"></i><span>Beranda</span></a><a class="nav-link"
-                                                                                           href="menu.php"><i
-                                        class="fab fa-readme"></i><span>Menu</span></a><a class="nav-link"
-                                                                                          href="reservasi.html"><i
-                                        class="fas fa-table"></i><span>Reservasi</span></a>
-                            <a
-                                    class="nav-link" href="meja.html"><i class="fas fa-ticket-alt"></i><span>Meja</span></a><a
-                                    class="nav-link" href="pesanan.html"><i
-                                        class="fas fa-newspaper"></i><span>Pesanan</span></a><a class="nav-link"
-                                                                                                href="pembayaran.html"><i
-                                        class="fas fa-money-bill-alt"></i><span>Pembayan</span></a>
-                            <a
-                                    class="nav-link" href="kuisioner.html"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a><a
-                                    class="nav-link" href="dapur.html"><i
-                                        class="fas fa-warehouse"></i><span>Data Dapur</span></a></li>
-                    </ul>
-                    <div class="text-center d-none d-md-inline">
-                        <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
-                    </div>
-                </div>
-            </nav>
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i class="fas fa-home"></i><span>Beranda</span></a><a class="nav-link active" href="menu.php"><i class="fab fa-readme"></i><span>Menu</span></a><a class="nav-link" href="reservasi.php"><i class="fas fa-table"></i><span>Reservasi</span></a>
+                    <a
+                            class="nav-link" href="meja.php"><i class="fas fa-ticket-alt"></i><span>Meja</span></a><a class="nav-link" href="pesanan.php"><i class="fas fa-newspaper"></i><span>Pesanan</span></a><a class="nav-link" href="pembayaran.php"><i class="fas fa-money-bill-alt"></i><span>Pembayaran</span></a>
+                    <a
+                            class="nav-link" href="kuisioner.php"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a><a class="nav-link" href="dapur.php"><i class="fas fa-warehouse"></i><span>Data Dapur</span></a></li>
+            </ul>
+            <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
         </div>
     </nav>
     <div class="d-flex flex-column" id="content-wrapper">
@@ -208,11 +149,11 @@ if (isset($_POST["TblSimpan"])) {
             <div class="container-fluid">
                 <h3 class="text-dark mb-1">Tambah Menu<br><br></h3>
             </div>
-            <form name="f" method="post" action="tambah-menu.php">
+            <form name="f" method="post" action="proses/proses-tambah-menu.php">
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-align-justify"></i></span></div>
-                    <input type="text" name="id" class="form-control" placeholder="Id Menu" style="margin-right: 60px;" required>
+                    <input type="text" name="id" value="<?php echo $randomId; ?>" class="form-control" placeholder="Id Menu" style="margin-right: 60px;" required readonly>
                 </div>
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
