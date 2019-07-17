@@ -4,11 +4,10 @@ session_start();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
-if ($_SESSION["jabatan"] != "Pelayan") {
+if ($_SESSION["jabatan"] != "Pelayan" and $_SESSION["jabatan"] != "Koki" and $_SESSION["jabatan"] != "Pantry") {
     header("Location: index.php");
 }
 $username = $_SESSION["nama"];
-$idPes = getName(5);
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,20 +38,24 @@ $idPes = getName(5);
             </a>
             <hr class="sidebar-divider my-0">
             <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                <li class="nav-item" role="presentation"><a class="nav-link active" href="index.php"><i
+                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
                                 class="fas fa-home"></i><span>Beranda</span></a><a class="nav-link" href="menu.php"><i
-                                class="fab fa-readme"></i><span>Menu</span></a><a class="nav-link" href="reservasi.php"><i
+                                class="fab fa-readme"></i><span>Menu</span></a><a class="nav-link"
+                                                                                  href="reservasi.php"><i
                                 class="fas fa-table"></i><span>Reservasi</span></a>
                     <a
-                            class="nav-link" href="meja.php"><i class="fas fa-ticket-alt"></i><span>Meja</span></a><a
-                            class="nav-link" href="pesanan.php"><i class="fas fa-newspaper"></i><span>Pesanan</span></a><a
-                            class="nav-link" href="pembayaran.php"><i
-                                class="fas fa-money-bill-alt"></i><span>Pembayaran</span></a>
-                    <a
-                            class="nav-link" href="kuisioner.php"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a><a
-                            class="nav-link" href="dapur.php"><i
-                                class="fas fa-warehouse"></i><span>Data Dapur</span></a></li>
+                            class="nav-link" href="meja.html"><i class="fas fa-ticket-alt"></i><span>Meja</span><a
+                                class="nav-link" href="pesanan.php"><i
+                                    class="fas fa-newspaper"></i><span>Pesanan</span></a><a class="nav-link"
+                                                                                            href="pembayaran.php"><i
+                                    class="fas fa-money-bill-alt"></i><span>Pembayan</span></a>
+                        <a
+                                class="nav-link" href="kuisioner.php"><i
+                                    class="fas fa-clipboard"></i><span>Kuisioner</span></a><a class="nav-link active"
+                                                                                              href="dapur.php"><i
+                                    class="fas fa-warehouse"></i><span>Data Dapur</span></a></li>
             </ul>
+            <ul class="nav navbar-nav text-light" id="accordionSidebar"></ul>
             <div class="text-center d-none d-md-inline">
                 <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
             </div>
@@ -128,15 +131,11 @@ $idPes = getName(5);
                                     Alerts</a></div>
                         </li>
                         </li>
-                        <li class="nav-item dropdown no-arrow mx-1" role="presentation">
-                            <div class="shadow dropdown-list dropdown-menu dropdown-menu-right"
-                                 aria-labelledby="alertsDropdown"></div>
-                        </li>
                         <div class="d-none d-sm-block topbar-divider"></div>
                         <li class="nav-item dropdown no-arrow" role="presentation">
                         <li class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link"
                                                                   data-toggle="dropdown" aria-expanded="false" href="#"><span
-                                        class="d-none d-lg-inline mr-2 text-gray-600 small">Akbar De Buryne</span><img
+                                        class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo $username; ?></span><img
                                         class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
                             <div
                                     class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a
@@ -158,99 +157,74 @@ $idPes = getName(5);
                 </div>
             </nav>
             <div class="container-fluid">
-                <h3 class="text-dark mb-1">Tambah Pesanan (2)<br><br></h3>
+                <h3 class="text-dark mb-1">Data Dapur</h3>
             </div>
-            <div class="input-group" style="margin-left: 20px;">
-                <div class="input-group-prepend"><span class="input-group-text icon-container"><i
-                                class="fa fa-align-justify"></i></span></div>
-                <input type="text" class="form-control" placeholder="Id Pesanan" value="<?php echo $idPes; ?>" style="margin-right: 60px;" readonly></div>
-            <div class="input-group" style="margin-left: 20px;">
-                <div class="input-group-prepend"><span class="input-group-text icon-container"><i
-                                class="fa fa-users"></i></span></div>
-                <input type="text" class="form-control" placeholder="Jumlah Pelanggan" style="margin-right: 60px;">
-            </div>
-            <form>
-                <div class="field" style="margin-left: 20px;margin-right: 40px;"><select class="form-control">
-                        <optgroup label="Silahkan Pilih Meja Nomor">
-                            <?php
-                            $datakategori = getListMeja();
-                            foreach ($datakategori as $data) {
-                                echo "<option value=\"" . $data["no_meja"] . "\">" . $data["no_meja"] . "</option>";
-                            }
-                            ?>
-                        </optgroup>
-                    </select><label class="mb-0"
-                                    for="float-input">Nomor Meja</label></div>
-            </form>
-            <div class="row" style="margin-left: 20px;margin-right: 40px;">
-                <div class="col" style="width: 500px;">
-                    <form>
-                        <div class="field" style="margin-left: 0;">
-                            <select class="form-control">
-                                <optgroup label="Silahkan Pilih Menu">
-                                    <?php
-                                    $datakategori = getListMenu();
-                                    foreach ($datakategori as $data) {
-                                        echo "<option value=\"" . $data["id_menu"] . "\">" . $data["nama_menu"] . "</option>";
-                                    }
-                                    ?>
-                                </optgroup>
-                            </select>
-                            <label
-                                    class="mb-0" for="float-input">Pilih Menu</label>
+            <div class="container" style="height: 200px;margin-top: 20px;">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <a href="bahan-baku.php">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row align-items-center no-gutters">
+                                                <div class="col mr-2">
+                                                    <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
+                                                        <span>Bahan Baku</span></div>
+                                                    <div class="text-dark font-weight-bold h5 mb-0"><span>Kelola<br>Data Bahan Baku<br>Resto Broto<br><br><br></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto"><i
+                                                            class="fas fa-warehouse fa-2x text-gray-300"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="belanja.php">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row align-items-center no-gutters">
+                                                <div class="col mr-2">
+                                                    <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
+                                                        <span>Data belanja</span></div>
+                                                    <div class="text-dark font-weight-bold h5 mb-0"><span>Kelola<br>Data Belanja <br>Resto Broto<br><br><br></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto"><i
+                                                            class="fas fa-shopping-cart fa-2x text-gray-300"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="kebutuhan-koki.php">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row align-items-center no-gutters">
+                                                <div class="col mr-2">
+                                                    <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
+                                                        <span>Keperluan Koki</span></div>
+                                                    <div class="text-dark font-weight-bold h5 mb-0"><span>Kelola<br>Keperluan Koki<br>Resto Broto<br><br><br></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto"><i
+                                                            class="fas fa-hands-helping fa-2x text-gray-300"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div class="col" style="margin-left: 0;">
-                    <div class="input-group" style="margin-top: 20px;">
-                        <div class="input-group-prepend"><span class="input-group-text icon-container"><i
-                                        class="fa fa-align-justify"></i></span></div>
-                        <input type="text" class="form-control" placeholder="Jumlah"></div>
-                </div>
-                <div class="col">
-                    <button class="btn btn-primary" type="button" style="margin-top: 20px;">Tambah</button>
-                </div>
-            </div>
-            <div class="card shadow" style="margin-top: 20px;margin-right: 40px;margin-left: 20px;">
-                <div class="card-body">
-                    <div class="table-responsive table mt-2" id="dataTable" role="grid"
-                         aria-describedby="dataTable_info">
-                        <table class="table dataTable my-0" id="dataTable">
-                            <thead>
-                            <tr>
-                                <th>Nama Menu</th>
-                                <th>Jumlah</th>
-                                <th>Pilihan</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Nasi Goreng Biasa</td>
-                                <td>2</td>
-                                <td>Hapus</td>
-                            </tr>
-                            <tr>
-                                <td>Nasi Goreng Jepang</td>
-                                <td>3</td>
-                                <td>Hapus</td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            </tfoot>
-                        </table>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary" type="button" style="margin-right: 40px;margin-top: 20px;">Simpan</button>
         </div>
         <footer class="bg-white sticky-footer">
             <div class="container my-auto">
-                <div class="text-center my-auto copyright"><span>Copyright © RamenKu 2019</span></div>
+                <div class="text-center my-auto copyright"><span>Copyright © RamenkKu 2019</span></div>
             </div>
         </footer>
     </div>
