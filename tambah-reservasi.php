@@ -8,7 +8,9 @@ if ($_SESSION["jabatan"] != "Pelayan") {
     header("Location: index.php");
 }
 $username = $_SESSION["nama"];
+$idRes=getName(5);
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -36,16 +38,18 @@ $username = $_SESSION["nama"];
             <div class="container-fluid">
                 <h3 class="text-dark mb-4">Reservasi</h3>
             </div>
+                <form name="f" method="post" action="tambah-pesanan.php">
             <div class="input-group" style="margin-right: 20px;margin-left: 20px;">
-                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="fas fa-envelope"></i></span></div><input type="text" class="form-control" placeholder="Id Reservasi" style="margin-right: 60px;"></div>
+                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="fas fa-envelope"></i></span></div><input type="text" name="idRes" class="form-control" value="<?php echo $idRes; ?>" placeholder="Id Reservasi" style="margin-right: 60px;" readonly></div>
             <div class="input-group" style="margin-right: 20px;margin-left: 20px;">
-                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="far fa-user"></i></span></div><input type="text" class="form-control" placeholder="Nama Pemesan" style="margin-right: 60px;"></div>
+                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="far fa-user"></i></span></div><input type="text" name="nama" class="form-control" placeholder="Nama Pemesan" required style="margin-right: 60px;"></div>
             <div class="input-group" style="margin-right: 20px;margin-left: 20px;">
-                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="fa fa-users"></i></span></div><input type="text" class="form-control" placeholder="Jumlah Pemesan" style="margin-right: 60px;"></div>
+                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="fa fa-users"></i></span></div><input type="text" name="jumlahOrang" class="form-control" placeholder="Jumlah Pemesan"required style="margin-right: 60px;"></div>
             <h3 class="text-dark mb-4" style="margin-left: 20px;margin-bottom: 0px;">Tanggal Reservasi</h3>
             <div class="input-group" style="margin-left: 20px;margin-right: 20px;">
-                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="far fa-calendar-times"></i></span></div><input type="date"><input type="time"></div> <a href="tambah-pesanan.php"><button class="btn btn-primary" type="button" style="margin-right: 40px;">Lanjut</button></div>
-        <footer
+                <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="far fa-calendar-times"></i></span></div><input type="date" name="tanggal" required><input type="time" name="jam" required></div><button class="btn btn-primary" type="submit   " name="TblReservasi" style="margin-right: 40px;">Lanjut</button></div>
+            </form>
+            <footer
             class="bg-white sticky-footer">
             <div class="container my-auto">
                 <div class="text-center my-auto copyright"><span>Copyright © RamenKu 2019</span></div>

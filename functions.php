@@ -32,6 +32,20 @@ function getListMeja()
         return FALSE;
 }
 
+function getDetailMenu($idpes){
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT menu.nama_menu,detail_pesanan.jumlah,detail_pesanan.id_menu,detail_pesanan.id_pesanan FROM menu JOIN detail_pesanan ON menu.id_menu=detail_pesanan.id_menu WHERE detail_pesanan.id_pesanan='$idpes'");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
 function getListMenu()
 {
     $db = dbConnect();
