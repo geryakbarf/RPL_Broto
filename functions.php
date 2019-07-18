@@ -67,7 +67,22 @@ function getListPesanan()
 {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT pesanan.id_pesanan, pelanggan.atas_nama, pesanan.no_meja, pegawai.nama, pesanan.status FROM pesanan JOIN pelanggan ON pesanan.id_pelanggan=pelanggan.id_pelanggan JOIN pegawai ON pesanan.pelayan=pegawai.nip ");
+        $res = $db->query("SELECT pesanan.id_pesanan, pelanggan.atas_nama, pesanan.no_meja, pegawai.nama, pesanan.status FROM pesanan JOIN pelanggan ON pesanan.id_pelanggan=pelanggan.id_pelanggan JOIN pegawai ON pesanan.pelayan=pegawai.nip ORDER BY FIELD(status,'Selesai','Pending','Dimasak','Dibayar')");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getListReservasi()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT reservasi.id_reservasi, reservasi.tanggal, pelanggan.atas_nama, pesanan.no_meja, pesanan.id_pesanan FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi JOIN pelanggan ON pesanan.id_pelanggan=pelanggan.id_pelanggan ORDER BY reservasi.tanggal");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();

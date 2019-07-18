@@ -58,22 +58,22 @@ $username = $_SESSION["nama"];
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php
+                                $datareservasi=getListReservasi();
+                                foreach ($datareservasi as $data){
+                                    ?>
                                     <tr>
-                                        <td>RSK01</td>
-                                        <td>2019-07-15 17:30</td>
-                                        <td>Wahyudi</td>
-                                        <td class="text-center">Meja 1</td>
-                                        <td class="text-center"><a href="#">VXWCZ</a></td>
+                                        <td><?php echo $data["id_reservasi"];?></td>
+                                        <td><?php echo $data["tanggal"];?></td>
+                                        <td><?php echo $data["atas_nama"];?></td>
+                                        <td class="text-center"><?php echo $data["no_meja"];?></td>
+                                        <td class="text-center"><a href="detail-pesanan.php?id=<?php echo $data["id_pesanan"]; ?>"><?php echo $data["id_pesanan"];?></a></td>
                                         <td class="text-center"><a href="#">Edit</a></td>
                                     </tr>
-                                    <tr>
-                                        <td>RSV11</td>
-                                        <td>2019-07-15 18:00</td>
-                                        <td>Herlambang</td>
-                                        <td class="text-center">Meja 2</td>
-                                        <td class="text-center"><a href="#">WWWYX</a> </td>
-                                        <td class="text-center"><a href="#">Edit</a> </td>
-                                    </tr>
+                                <?php
+                                }
+                                ?>
+
                                 </tbody>
                                 <tfoot>
                                     <tr>
