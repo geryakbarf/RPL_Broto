@@ -59,22 +59,21 @@ $username = $_SESSION["nama"];
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>PES01</td>
-                                        <td>Wahyudi</td>
-                                        <td>5</td>
-                                        <td class="text-center">Wahid</td>
-                                        <td class="text-center">Pending</td>
-                                        <td class="text-center">Detail</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TRVFK</td>
-                                        <td>Junaedi</td>
-                                        <td>7</td>
-                                        <td class="text-center">Herlambang</td>
-                                        <td class="text-center">Selesai</td>
-                                        <td class="text-center">Detail</td>
-                                    </tr>
+                                <?php
+                                $listpesanan=getListPesanan();
+                                foreach ($listpesanan as $data){
+                                    ?>
+                                <tr>
+                                    <td><?php echo $data['id_pesanan'];?></td>
+                                    <td><?php echo $data['atas_nama'];?></td>
+                                    <td><?php echo $data['no_meja'];?></td>
+                                    <td class="text-center"><?php echo $data['nama'];?></td>
+                                    <td class="text-center"><?php echo $data['status'];?></td>
+                                    <td class="text-center">Detail</td>
+                                </tr>
+                                <?php
+                                }
+                                ?>
                                 </tbody>
                                 <tfoot>
                                     <tr>

@@ -63,6 +63,21 @@ function getListMenu()
         return FALSE;
 }
 
+function getListPesanan()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT pesanan.id_pesanan, pelanggan.atas_nama, pesanan.no_meja, pegawai.nama, pesanan.status FROM pesanan JOIN pelanggan ON pesanan.id_pelanggan=pelanggan.id_pelanggan JOIN pegawai ON pesanan.pelayan=pegawai.nip ");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
 function getName($n)
 {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

@@ -52,12 +52,12 @@ $_SESSION['idPel'] = $idPel;
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fas fa-user"></i></span></div>
                     <input type="text" class="form-control" name="nama" placeholder="Nama Pemesan"
-                           style="margin-right: 60px;"></div>
+                           style="margin-right: 60px;" maxlength="25"></div>
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-users"></i></span></div>
-                    <input type="text" class="form-control" name="jumlah" placeholder="Jumlah Pelanggan"
-                           style="margin-right: 60px;"></div>
+                    <input type="text" class="form-control" name="jumlahOrang" placeholder="Jumlah Pelanggan"
+                           style="margin-right: 60px;" maxlength="1"></div>
                 <a href="tambah-pesanan.php">
                     <button class="btn btn-primary" type="submit"
                             style="margin-top: 20px;margin-right: 40px;" name="TblPesanan">Lanjut
