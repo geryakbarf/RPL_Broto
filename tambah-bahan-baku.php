@@ -1,0 +1,100 @@
+<?php include_once("functions.php"); ?>
+<?php
+session_start();
+if (!isset($_SESSION["nip"])) {
+    header("Location: login.php");
+}
+if ($_SESSION["jabatan"] != "Pantry") {
+    header("Location: index.php");
+}
+$username = $_SESSION["nama"];
+$id=getName(5);
+
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Blank Page - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/css/Icon-Input.css">
+    <link rel="stylesheet" href="assets/css/select.css">
+    <link rel="stylesheet" href="assets/css/Studious-selectbox.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <?php sideBar(); ?>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <?php topBar($username); ?>
+            <div class="container-fluid">
+                <h3 class="text-dark mb-1">Tambah Bahan Baku<br><br></h3>
+            </div>
+            <form name="f" method="post" action="proses/proses-tambah-bahan.php">
+                <div class="input-group" style="margin-left: 20px;">
+                    <div class="input-group-prepend"><span class="input-group-text icon-container"><i
+                                    class="fa fa-align-justify"></i></span></div>
+                    <input type="text" class="form-control" value="<?php echo $id;?>" placeholder="Id Bahan Baku" name="id" style="margin-right: 60px;" readonly>
+                </div>
+                <div class="input-group" style="margin-left: 20px;">
+                    <div class="input-group-prepend"><span class="input-group-text icon-container"><i
+                                    class="fas fa-mortar-pestle"></i></span></div>
+                    <input type="text" class="form-control" name="nama" placeholder="Nama Bahan Baku" style="margin-right: 60px;" required maxlength="25">
+                </div>
+                <div class="input-group" style="margin-left: 20px;">
+                    <div class="input-group-prepend"><span class="input-group-text icon-container"><i
+                                    class="fas fa-money-bill-alt"></i></span></div>
+                    <input type="text" class="form-control" name="harga" placeholder="Harga Bahan Baku" style="margin-right: 60px;" required maxlength="6">
+                </div>
+                <div class="input-group" style="margin-left: 20px;">
+                    <div class="input-group-prepend"><span class="input-group-text icon-container"><i
+                                    class="fas fa-dolly-flatbed"></i></span></div>
+                    <input type="text" class="form-control" name="stok" placeholder="Stok Bahan Baku" style="margin-right: 60px;" required maxlength="5">
+                </div>
+
+                <div class="field"><select class="form-control" name="satuan"
+                                           style="margin-right: 0px;margin-left: 20px;width: 910px;">
+                        <optgroup label="Pilih Satuan Untuk Stok">
+                            <option value="Kg" selected="">Kg</option>
+                            <option value="Bungkus">Bungkus</option>
+                            <option value="Buah">Buah</option>
+                        </optgroup>
+                    </select><label class="mb-0"
+                                    for="float-input" style="margin-left: 20px;">Satuan Stok</label></div>
+                <h3 class="text-dark mb-4" style="margin-left: 20px;margin-bottom: 0px;">Tanggal Kadaluarsa</h3>
+                <div class="input-group" style="margin-left: 20px;margin-right: 20px;">
+
+                    <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="far fa-calendar-times"></i></span></div><input type="date" name="tanggal" required></div>
+
+                <button class="btn btn-primary" type="submit"
+                        style="margin-top: 20px;margin-right: 40px;" name="TblSimpan">Simpan
+                </button>
+        </div>
+        </form>
+        <footer class="bg-white sticky-footer">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>Copyright © Brand 2019</span></div>
+            </div>
+        </footer>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/Bootstrap-DateTime-Picker-1.js"></script>
+<script src="assets/js/Bootstrap-DateTime-Picker-2.js"></script>
+<script src="assets/js/Bootstrap-DateTime-Picker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+<script src="assets/js/Studious-selectbox.js"></script>
+<script src="assets/js/theme.js"></script>
+</body>
+
+</html>

@@ -17,6 +17,21 @@ function showError($message)
     <?php
 }
 
+function getListBahan()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT * FROM bahan_baku ORDER BY nama_bahan");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
 function getListMeja()
 {
     $db = dbConnect();
@@ -82,7 +97,7 @@ function getListReservasi()
 {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT reservasi.id_reservasi, reservasi.tanggal, pelanggan.atas_nama, pesanan.no_meja, pesanan.id_pesanan FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi JOIN pelanggan ON pesanan.id_pelanggan=pelanggan.id_pelanggan ORDER BY reservasi.tanggal");
+        $res = $db->query("SELECT reservasi.id_reservasi, reservasi.tanggal, pelanggan.atas_nama, pesanan.no_meja, pesanan.id_pesanan FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi JOIN pelanggan ON pesanan.id_pelanggan=pelanggan.id_pelanggan ORDER BY reservasi.tanggalwhat");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
