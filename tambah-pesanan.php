@@ -4,9 +4,6 @@ session_start();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
-if ($_SESSION["jabatan"] != "Pelayan") {
-    header("Location: index.php");
-}
 $username = $_SESSION["nama"];
 $idPes = getName(5);
 if (strlen($_SESSION["idPes"]) == 0) {
@@ -67,7 +64,21 @@ if (isset($_POST['TblReservasi']) or isset($_POST['TblPesanan'])) {
 
 <body id="page-top">
 <div id="wrapper">
-    <?php sideBar(); ?>
+    <?php
+    if($_SESSION["jabatan"]=="Koki") {
+        sideBarKoki();
+    }else if($_SESSION["jabatan"]=="Pantry") {
+        sideBarPantry();
+    }else if($_SESSION["jabatan"]=="Pelayan") {
+        sideBarPelayan();
+    }else if($_SESSION["jabatan"]=="Kasir") {
+        sideBarKasir();
+    }else if($_SESSION["jabatan"]=="Customer Service") {
+        sideBarCS();
+    }else if($_SESSION["jabatan"]=="Owner") {
+        sideBarOwner();
+    }
+    ?>
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
             <?php topBar($username) ?>

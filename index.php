@@ -25,10 +25,24 @@ $username=$_SESSION["nama"];
 
 <body id="page-top">
     <div id="wrapper">
-        <?php sideBar(); ?>
+        <?php
+        if($_SESSION["jabatan"]=="Koki") {
+            sideBarKoki();
+        }else if($_SESSION["jabatan"]=="Pantry") {
+            sideBarPantry();
+        }else if($_SESSION["jabatan"]=="Pelayan") {
+            sideBarPelayan();
+        }else if($_SESSION["jabatan"]=="Kasir") {
+            sideBarKasir();
+        }else if($_SESSION["jabatan"]=="Customer Service") {
+            sideBarCS();
+        }else if($_SESSION["jabatan"]=="Owner") {
+            sideBarOwner();
+        }
+        ?>
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
-                <?php topBar($username) ?>
+                <?php topBar($username); ?>
             <div class="container-fluid">
                 <div class="d-sm-flex justify-content-between align-items-center mb-4">
                     <h3 class="text-dark mb-0">Beranda</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Buat Laporan</a></div>

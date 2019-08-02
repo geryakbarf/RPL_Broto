@@ -4,9 +4,7 @@ session_start();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
-if ($_SESSION["jabatan"] != "Koki" and $_SESSION["jabatan"] != "Pantry") {
-    header("Location: index.php");
-}
+
 $username = $_SESSION["nama"];
 
 ?>
@@ -30,7 +28,21 @@ $username = $_SESSION["nama"];
 
 <body id="page-top">
     <div id="wrapper">
-        <?php sideBar(); ?>
+        <?php
+        if($_SESSION["jabatan"]=="Koki") {
+            sideBarKoki();
+        }else if($_SESSION["jabatan"]=="Pantry") {
+            sideBarPantry();
+        }else if($_SESSION["jabatan"]=="Pelayan") {
+            sideBarPelayan();
+        }else if($_SESSION["jabatan"]=="Kasir") {
+            sideBarKasir();
+        }else if($_SESSION["jabatan"]=="Customer Service") {
+            sideBarCS();
+        }else if($_SESSION["jabatan"]=="Owner") {
+            sideBarOwner();
+        }
+        ?>
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                <?php topBar($username); ?>

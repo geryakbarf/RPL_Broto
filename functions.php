@@ -47,7 +47,8 @@ function getListMeja()
         return FALSE;
 }
 
-function getDetailMenu($idpes){
+function getDetailMenu($idpes)
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT menu.nama_menu,detail_pesanan.jumlah,detail_pesanan.id_menu,detail_pesanan.id_pesanan FROM menu JOIN detail_pesanan ON menu.id_menu=detail_pesanan.id_menu WHERE detail_pesanan.id_pesanan='$idpes'");
@@ -82,7 +83,7 @@ function getListPesanan()
 {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT pesanan.id_pesanan, pelanggan.atas_nama, pesanan.no_meja, pegawai.nama, pesanan.status FROM pesanan JOIN pelanggan ON pesanan.id_pelanggan=pelanggan.id_pelanggan JOIN pegawai ON pesanan.pelayan=pegawai.nip ORDER BY FIELD(status,'Selesai','Pending','Dimasak','Dibayar')");
+        $res = $db->query("SELECT pesanan.id_pesanan, pelanggan.atas_nama, pesanan.no_meja, pegawai.nama, pesanan.status FROM pesanan JOIN pelanggan ON pesanan.id_pelanggan=pelanggan.id_pelanggan JOIN pegawai ON pesanan.pelayan=pegawai.nip ORDER BY FIELD(status,'Pending','Dimasak','Selesai','Dibayar')");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
@@ -121,6 +122,37 @@ function getName($n)
     return $randomString;
 }
 
+function sideBarKoki()
+{
+
+    ?>
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.php">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-hotel"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Resto Broto</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
+                                class="fas fa-home"></i><span>Beranda</span></a><a class="nav-link"
+                                                                                   href="menu.php?halaman=1"><i
+                                class="fab fa-readme"></i><span>Menu</span></a>
+                    <a
+                            class="nav-link" href="pesanan.php?halaman=1"><i
+                                class="fas fa-newspaper"></i><span>Pesanan</span></a>
+                    <a
+                            class="nav-link" href="dapur.php"><i
+                                class="fas fa-warehouse"></i><span>Data Dapur</span></a></li>
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+            </div>
+        </div>
+    </nav>
+    <?php
+}
+
 function sideBar()
 {
 
@@ -134,16 +166,153 @@ function sideBar()
             <hr class="sidebar-divider my-0">
             <ul class="nav navbar-nav text-light" id="accordionSidebar">
                 <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
-                                class="fas fa-home"></i><span>Beranda</span></a><a class="nav-link" href="menu.php"><i
-                                class="fab fa-readme"></i><span>Menu</span></a><a class="nav-link" href="reservasi.php"><i
+                                class="fas fa-home"></i><span>Beranda</span></a><a class="nav-link"
+                                                                                   href="menu.php?halaman=1"><i
+                                class="fab fa-readme"></i><span>Menu</span></a><a class="nav-link"
+                                                                                  href="reservasi.php?halaman=1"><i
                                 class="fas fa-table"></i><span>Reservasi</span></a>
                     <a
-                            class="nav-link" href="meja.php"><i class="fas fa-ticket-alt"></i><span>Meja</span></a><a
-                            class="nav-link" href="pesanan.php"><i class="fas fa-newspaper"></i><span>Pesanan</span></a><a
-                            class="nav-link" href="pembayaran.php"><i
+                            class="nav-link" href="meja.php?halaman=1"><i
+                                class="fas fa-ticket-alt"></i><span>Meja</span></a><a
+                            class="nav-link" href="pesanan.php?halaman=1"><i
+                                class="fas fa-newspaper"></i><span>Pesanan</span></a><a
+                            class="nav-link" href="pembayaran.php?halaman=1"><i
                                 class="fas fa-money-bill-alt"></i><span>Pembayaran</span></a>
                     <a
-                            class="nav-link" href="kuisioner.php"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a><a
+                            class="nav-link" href="kuisioner.php?halaman=1"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a><a
+                            class="nav-link" href="dapur.php"><i
+                                class="fas fa-warehouse"></i><span>Data Dapur</span></a></li>
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+            </div>
+        </div>
+    </nav>
+    <?php
+}
+
+function sideBarCS()
+{
+
+    ?>
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.php">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-hotel"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Resto Broto</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
+                                class="fas fa-home"></i><span>Beranda</span></a>
+                    <a
+                            class="nav-link" href="kuisioner.php?halaman=1"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a></li>
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+            </div>
+        </div>
+    </nav>
+    <?php
+}
+
+function sideBarKasir()
+{
+
+    ?>
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.php">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-hotel"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Resto Broto</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
+                                class="fas fa-home"></i><span>Beranda</span></a><a
+                            class="nav-link" href="pembayaran.php?halaman=1"><i
+                                class="fas fa-money-bill-alt"></i><span>Pembayaran</span></a>
+                  </li>
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+            </div>
+        </div>
+    </nav>
+    <?php
+}
+
+function sideBarOwner()
+{
+
+    ?>
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.php">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-hotel"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Resto Broto</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
+                                class="fas fa-home"></i><span>Laporan</span></a>
+                </li>
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+            </div>
+        </div>
+    </nav>
+    <?php
+}
+
+function sideBarPelayan()
+{
+
+    ?>
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.php">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-hotel"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Resto Broto</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
+                                class="fas fa-home"></i><span>Beranda</span></a><a class="nav-link"
+                                                                                   href="menu.php?halaman=1"><i
+                                class="fab fa-readme"></i><span>Menu</span></a><a class="nav-link"
+                                                                                  href="reservasi.php?halaman=1"><i
+                                class="fas fa-table"></i><span>Reservasi</span></a>
+                    <a
+                            class="nav-link" href="meja.php?halaman=1"><i
+                                class="fas fa-ticket-alt"></i><span>Meja</span></a><a
+                            class="nav-link" href="pesanan.php?halaman=1"><i
+                                class="fas fa-newspaper"></i><span>Pesanan</span></a></li>
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+            </div>
+        </div>
+    </nav>
+    <?php
+}
+
+
+function sideBarPantry()
+{
+
+    ?>
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.php">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-hotel"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Resto Broto</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
+                                class="fas fa-home"></i><span>Beranda</span></a><a
                             class="nav-link" href="dapur.php"><i
                                 class="fas fa-warehouse"></i><span>Data Dapur</span></a></li>
             </ul>
