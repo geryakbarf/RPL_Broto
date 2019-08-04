@@ -71,18 +71,34 @@ $username = $_SESSION["nama"];
                                 </thead>
                                 <tbody>
                                 <?php
-                                $listpesanan=getListPesanan();
-                                foreach ($listpesanan as $data){
+                                $db = dbConnect();
+                                $batas = 20;
+                                $halaman = $_GET['halaman'];
+                                if (empty($halaman)) {
+                                    $posisi = 0;
+                                    $halaman = 1;
+                                } else {
+                                    $posisi = ($halaman - 1) * $batas;
+                                }
+                                if ($db->connect_errno == 0) {
+                                $res = $db->query("SELECT pesanan.id_pesanan, pesanan.nama_pelanggan, pesanan.no_meja, pegawai.nama, pesanan.status FROM pesanan JOIN pegawai ON pesanan.pelayan=pegawai.nip WHERE pesanan.id_reservasi NOT IN(SELECT id_reservasi FROM reservasi WHERE CURDATE() <>DATE(tanggal) ) ORDER BY FIELD(status,'Pending','Dimasak','Selesai','Dibayar') LIMIT $posisi,$batas ");
+                                if ($res) {
+                                $jmldata = mysqli_num_rows($res);
+                                $jmlhalaman = ceil($jmldata / $batas);
+                                $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
+                                foreach ($datajadwal as $data) {
                                     ?>
                                 <tr>
                                     <td><?php echo $data['id_pesanan'];?></td>
-                                    <td><?php echo $data['atas_nama'];?></td>
+                                    <td><?php echo $data['nama_pelanggan'];?></td>
                                     <td><?php echo $data['no_meja'];?></td>
                                     <td class="text-center"><?php echo $data['nama'];?></td>
                                     <td class="text-center"><?php echo $data['status'];?></td>
                                     <td class="text-center">Detail</td>
                                 </tr>
-                                <?php
+                                    <?php
+                                }
+                                }
                                 }
                                 ?>
                                 </tbody>
@@ -100,16 +116,25 @@ $username = $_SESSION["nama"];
                         </div>
                         <div class="row">
                             <div class="col-md-6 align-self-center">
-                                <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                                <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Halaman
+                                    <?php echo $halaman?></p>
                             </div>
                             <div class="col-md-6">
                                 <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
                                     <ul class="pagination">
-                                        <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                        <?php
+                                        for($i=1;$i<=$jmlhalaman;$i++)
+                                            if ($i != $halaman){
+                                                ?>
+                                                <li class="page-item"><a class="page-link" href="menu.php?halaman=<?php echo $i?>"><?php echo $i?></a></li>
+                                                <?php
+                                            }
+                                            else{
+                                                ?>
+                                                <li class="page-item active"><a class="page-link"><?php echo $i?></a></li>
+                                                <?php
+                                            }
+                                        ?>
                                     </ul>
                                 </nav>
                             </div>

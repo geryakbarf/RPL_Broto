@@ -1,33 +1,34 @@
 <?php include_once("functions.php"); ?>
 <?php
 session_start();
+$db=dbConnect();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
 $username = $_SESSION["nama"];
 $idPes = getName(5);
-if (strlen($_SESSION["idPes"]) == 0) {
+if (strlen(isset($_SESSION["idPes"]) )== 0) {
 
     $_SESSION["idPes"] = $idPes;
 } else {
     $idPes = $_SESSION['idPes'];
 }
+$meja="";
+if(isset($_SESSION["meja"])){
+    if(strlen($_SESSION["meja"])>0){
+        $meja=$_SESSION["meja"];
+    }
+}
 ?>
 
 <?php
 if (isset($_POST['TblReservasi']) or isset($_POST['TblPesanan'])) {
-    $idPel = getName(5);
-    if(strlen($_SESSION['idPel']==0)){
-        $_SESSION['idPel']=$idPel;
-    }
     $nama = trim($_POST['nama']);
     $jumlah = trim($_POST['jumlahOrang']);
     $idRes = "";
-    $db = dbConnect();
-    if ($db->connect_errno == 0) {
-        $sql = "INSERT INTO pelanggan(id_pelanggan,atas_nama,jumlah_pelanggan) VALUES ('$idPel','$nama','$jumlah')";
-        $res = $db->query($sql);
-    }
+    $_SESSION['namaPel']=$nama;
+    $_SESSION['jumlahPel']=$jumlah;
+
 
     if (isset($_POST['TblReservasi'])) {
         $idRes = trim($_POST['idRes']);
@@ -96,9 +97,24 @@ if (isset($_POST['TblReservasi']) or isset($_POST['TblPesanan'])) {
                     <div class="field" style="margin-left: 20px;margin-right: 40px;"><select class="form-control" name="meja">
                             <optgroup label="Silahkan Pilih Meja Nomor">
                                 <?php
+                                if(isset($_SESSION["meja"])){
+                                    if(strlen($_SESSION["meja"])>0){
+                                        ?>
+                                        <option selected='selected' value="<?php echo $meja;?>"><?php echo $meja;?></option>
+                                        <?php
+                                    }
+                                }
                                 $datakategori = getListMeja();
                                 foreach ($datakategori as $data) {
-                                    echo "<option value=\"" . $data["no_meja"] . "\">" . $data["no_meja"] . "</option>";
+                                    if($data['no_meja']==$meja){
+                                        ?>
+                                        <option selected='selected' value="<?php echo $data['no_meja'];?>"><?php echo $data['no_meja'];?></option>
+                                        <?php
+                                    }else{
+                                        ?>
+                                        <option value="<?php echo $data['no_meja'];?>"><?php echo $data['no_meja'];?></option>
+                                        <?php
+                                    }
                                 }
                                 ?>
                             </optgroup>
@@ -155,7 +171,7 @@ if (isset($_POST['TblReservasi']) or isset($_POST['TblPesanan'])) {
                     <tr>
                         <td><?php echo $data["nama_menu"]; ?></td>
                         <td><?php echo $data["jumlah"]; ?></td>
-                        <td class="text-center"><a href="proses-hapus-detail.php?idmenu=<?php echo$data["id_menu"]; ?>&idpes=<?php echo$data['id_pesanan']; ?>">Edit</a></td>
+                        <td class="text-center"><a href="proses-hapus-detail.php?idmenu=<?php echo$data["id_menu"]; ?>&idpes=<?php echo$data['id_pesanan']; ?>">Hapus</a></td>
                     </tr>
                     <?php
                         }

@@ -98,7 +98,7 @@ function getListReservasi()
 {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT reservasi.id_reservasi, reservasi.tanggal, pelanggan.atas_nama, pesanan.no_meja, pesanan.id_pesanan FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi JOIN pelanggan ON pesanan.id_pelanggan=pelanggan.id_pelanggan ORDER BY reservasi.tanggalwhat");
+        $res = $db->query("SELECT reservasi.id_reservasi, reservasi.tanggal, pesanan.nama_pelanggan, pesanan.no_meja, pesanan.id_pesanan FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi  ORDER BY reservasi.tanggal");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
@@ -393,14 +393,7 @@ function topBar($username)
                                 class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo $username; ?></span><img
                                 class="border rounded-circle img-profile" src="assets/img/avatars/avatar4.jpeg"></a>
                     <div
-                            class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a
-                                class="dropdown-item" role="presentation" href="#"><i
-                                    class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a><a
-                                class="dropdown-item" role="presentation" href="#"><i
-                                    class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
-                        <a
-                                class="dropdown-item" role="presentation" href="#"><i
-                                    class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a>
+                            class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" role="presentation" href="proses/proses-logout.php"><i
                                     class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Keluar</a>

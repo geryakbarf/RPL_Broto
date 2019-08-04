@@ -64,22 +64,20 @@ $username = $_SESSION["nama"];
                                         <th>Tanggal Reservasi</th>
                                         <th>Nama Pemesan</th>
                                         <th class="text-center">Nomor Meja</th>
-                                        <th class="text-center">Nomor Pesanan</th>
                                         <th class="text-center">Pilihan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php
                                 $datareservasi=getListReservasi();
-                                foreach ($datareservasi as $data){
+                                 foreach($datareservasi as $data){
                                     ?>
                                     <tr>
                                         <td><?php echo $data["id_reservasi"];?></td>
                                         <td><?php echo $data["tanggal"];?></td>
-                                        <td><?php echo $data["atas_nama"];?></td>
+                                        <td><?php echo $data["nama_pelanggan"];?></td>
                                         <td class="text-center"><?php echo $data["no_meja"];?></td>
-                                        <td class="text-center"><a href="detail-pesanan.php?id=<?php echo $data["id_pesanan"]; ?>"><?php echo $data["id_pesanan"];?></a></td>
-                                        <td class="text-center"><a href="#">Edit</a></td>
+                                        <td class="text-center"><a href="detail-reservasi.php?id=<?php echo $data["id_reservasi"]; ?>">Detail</a></td>
                                     </tr>
                                 <?php
                                 }
@@ -88,7 +86,6 @@ $username = $_SESSION["nama"];
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>

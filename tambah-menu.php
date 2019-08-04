@@ -48,7 +48,7 @@ $randomId= getName(5);
             <div class="container-fluid">
                 <h3 class="text-dark mb-1">Tambah Menu<br><br></h3>
             </div>
-            <form name="f" method="post" action="proses/proses-tambah-menu.php">
+            <form name="f" method="post" action="proses/proses-tambah-menu.php" onsubmit="return validdasiData()">
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-align-justify"></i></span></div>
@@ -91,6 +91,16 @@ $randomId= getName(5);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
+<SCRIPT>
+    function validdasiData() {
+        var angka= document.f.harga.value;
+        if(isNaN(angka) || angka < 100){
+            alert("Masukkan Harga Yang Valid!");
+            return false;
+        }
+        return true;
+    }
+</SCRIPT>
 </body>
 
 </html>

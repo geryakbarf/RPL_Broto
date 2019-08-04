@@ -3,10 +3,11 @@
 
 <?php
 session_start();
-$_SESSION["idPes"]="";
-$_SESSION['idPel']="";
-$_SESSION['idRes']="";
-$_SESSION['meja']="";
+unset($_SESSION["idPes"]);
+unset($_SESSION['idRes']);
+unset($_SESSION['meja']);
+unset($_SESSION['namaPel']);
+unset($_SESSION['jumlahPel']);
 
-header("Location: ../pesanan.php");
+header("Location: ../pesanan.php?halaman=1");
 ?>

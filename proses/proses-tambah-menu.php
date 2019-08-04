@@ -13,10 +13,7 @@ if (isset($_POST["TblSimpan"])) {
         $sql1 = "SELECT * FROM menu WHERE nama_menu='$nama'";
         $res1 = $db->query($sql1);
         if (mysqli_num_rows($res1) > 0) {
-            echo "<script>
-                            alert('Menu Telah Ada!');
-                            </script>";
-            header("Location: ../tambah-menu.php");
+            header("Location: ../menu.php?halaman=1&error=1");
         } else {
 
             //Query Untuk Insert ke DB
@@ -24,16 +21,17 @@ if (isset($_POST["TblSimpan"])) {
             $res = $db->query($sql);
             if ($res) {
                 if ($db->affected_rows > 0) {//Jika Data Berhasil Disimpan
-                    header("Location: ../menu.php");
+                    header("Location: ../menu.php?halaman=1");
                 } else {
-                    header("Location: ../tambah-menu.php");
+                    header("Location: ../menu.php?halaman=1&error=2");
                 }
             }else{
-                header("Location: ../tambah-menu.php");
+                header("Location: ../menu.php?halaman=1&error=3");
             }
         }
-    }
+    }else
+        header("Location: ../menu.php?halaman=1&error=3");
 } else
-    echo "Galat ! Data to Long"
+    header("Location: ../menu.php?halaman=1&error=4");
 
 ?>

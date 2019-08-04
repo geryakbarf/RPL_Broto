@@ -14,7 +14,9 @@ $menu = trim($_POST['menu']);
 $jumlah = trim($_POST['jumlah']);
 $idRes = $_SESSION['idRes'];
 $pelayan = $_SESSION['nip'];
-$idPel = $_SESSION['idPel'];
+$_SESSION['meja']=$meja;
+$namaPel=$_SESSION['namaPel'];
+$jumlahPel=$_SESSION['jumlahPel'];
 
 $db = dbConnect();
 
@@ -38,11 +40,15 @@ if ($db->connect_errno == 0) {
             }else echo "Error 1";
         }else echo "Error 2";
     } else {
-        $sql2 = "INSERT INTO pesanan (id_pesanan,pelayan,id_pelanggan,no_meja,id_reservasi,status) 
-                    VALUES('$idPes','$pelayan','$idPel','$meja','$idRes','Pending') ";
+        $sql2 = "INSERT INTO pesanan (id_pesanan,pelayan,nama_pelanggan,jumlah_pelanggan,no_meja,id_reservasi,status) 
+                    VALUES('$idPes','$pelayan','$namaPel','$jumlahPel','$meja','$idRes','Pending') ";
         $res2 = $db->query($sql2);
         if ($res2) {
             if ($db->affected_rows > 0) {
+                if (strlen($_SESSION["idRes"]) == 0){
+                $sqlmeja="UPDATE meja SET Status='Terisi' WHERE no_meja='$meja'";
+                $db->query($sqlmeja);
+                }
                 $sql3 = "INSERT INTO detail_pesanan(id_pesanan,id_menu,jumlah,total_harga) VALUES ('$idPes','$menu','$jumlah','$jumlah'*'$harga')";
                 $res3 = $db->query($sql3);
                 if ($res3) {

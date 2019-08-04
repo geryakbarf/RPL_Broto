@@ -26,6 +26,21 @@ $username = $_SESSION["nama"];
 </head>
 
 <body id="page-top">
+<?php
+if(isset($_GET["error"])){
+    $error = $_GET["error"];
+    if ($error == 1)
+        showError("Menu Telah Ada!.");
+    else if ($error == 2)
+        showError("Error database. Silahkan hubungi administrator");
+    else if ($error == 3)
+        showError("Koneksi ke Database gagal. Autentikasi gagal.");
+    else if ($error == 4)
+        showError("Anda tidak boleh mengakses halaman sebelumnya karena anda bukan koki!.");
+    else
+        showError("Unknown Error.");
+}
+?>
 <div id="wrapper">
     <?php
     if($_SESSION["jabatan"]=="Koki") {
@@ -75,27 +90,32 @@ $username = $_SESSION["nama"];
                                 <tbody>
                                 <?php
                                 $db = dbConnect();
-                                if ($db->connect_errno == 0) {
-                                    $sql = "SELECT id_menu,nama_menu,harga_menu,status FROM menu LIMIT 10";
+                                $batas = 20;
+                                $halaman = $_GET['halaman'];
+                                if (empty($halaman)) {
+                                    $posisi = 0;
+                                    $halaman = 1;
+                                } else {
+                                    $posisi = ($halaman - 1) * $batas;
                                 }
-                                $res = $db->query($sql);
+                                if ($db->connect_errno == 0) {
+                                $res = $db->query("SELECT id_menu,nama_menu,harga_menu,status FROM menu LIMIT $posisi,$batas ");
                                 if ($res) {
-
-                                    $data = $res->fetch_all(MYSQLI_ASSOC);
-                                    foreach ($data as $barisdata) {
+                                    $jmldata = mysqli_num_rows($res);
+                                    $jmlhalaman = ceil($jmldata / $batas);
+                                    $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
+                                    foreach ($datajadwal as $data) {
                                         ?>
                                         <tr>
-                                            <td><?php echo $barisdata["nama_menu"]; ?></td>
-                                            <td><?php echo $barisdata["harga_menu"]; ?></td>
-                                            <td><?php echo $barisdata["status"]; ?></td>
-                                            <td class="text-center"><a href="localhost/broto/menu-edit.php?id=<?php echo$barisdata["id_menu"]; ?>">Edit</a></td>
+                                            <td><?php echo $data["nama_menu"]; ?></td>
+                                            <td><?php echo $data["harga_menu"]; ?></td>
+                                            <td><?php echo $data["status"]; ?></td>
+                                            <td class="text-center"><a href="localhost/broto/menu-edit.php?id=<?php echo$data["id_menu"]; ?>">Edit</a></td>
                                         </tr>
                                         <?php
                                     }
-                                } else
-                                    echo "<script>
-                            alert('Terjadi Kesalahan Saat Memuat Database!');
-                            </script>";
+                                }
+                                }
                                 ?>
                                 </tbody>
                                 <tfoot>
@@ -110,20 +130,25 @@ $username = $_SESSION["nama"];
                         </div>
                         <div class="row">
                             <div class="col-md-6 align-self-center">
-                                <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing
-                                    1 to 10 of 27</p>
+                                <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Halaman
+                                    <?php echo $halaman?></p>
                             </div>
                             <div class="col-md-6">
                                 <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
                                     <ul class="pagination">
-                                        <li class="page-item disabled"><a class="page-link" href="#"
-                                                                          aria-label="Previous"><span
-                                                        aria-hidden="true">«</span></a></li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span
-                                                        aria-hidden="true">»</span></a></li>
+                                        <?php
+                                        for($i=1;$i<=$jmlhalaman;$i++)
+                                            if ($i != $halaman){
+                                                ?>
+                                                <li class="page-item"><a class="page-link" href="menu.php?halaman=<?php echo $i?>"><?php echo $i?></a></li>
+                                                <?php
+                                            }
+                                            else{
+                                                ?>
+                                                <li class="page-item active"><a class="page-link"><?php echo $i?></a></li>
+                                                <?php
+                                            }
+                                        ?>
                                     </ul>
                                 </nav>
                             </div>
