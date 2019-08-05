@@ -4,9 +4,7 @@ session_start();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
-
 $username = $_SESSION["nama"];
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,9 +43,9 @@ $username = $_SESSION["nama"];
         ?>
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
-               <?php topBar($username); ?>
-            <div class="container-fluid"><a href="tambah-bahan-baku.php"> <button class="btn btn-primary" type="button">Tambah Data</button></a>
-                <h3 class="text-dark mb-4">Daftar Bahan Baku</h3>
+                <?php topBar($username)?>
+            <div class="container-fluid"><a href="tambah-kebutuhan.php"> <button class="btn btn-primary" type="button">Tambah Kebutuhan</button></a>
+                <h3 class="text-dark mb-4">Daftar Kebutuhan Koki</h3>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="row">
@@ -62,10 +60,10 @@ $username = $_SESSION["nama"];
                             <table class="table dataTable my-0" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>Nama Bahan Baku</th>
-                                        <th>Harga</th>
-                                        <th>Stok</th>
-                                        <th>Kadaluarsa</th>
+                                        <th>ID Kebutuhan</th>
+                                        <th>Tanggal</th>
+                                        <th>Untuk Koki</th>
+                                        <th class="text-center">Status</th>
                                         <th class="text-center">Pilihan</th>
                                     </tr>
                                 </thead>
@@ -81,19 +79,21 @@ $username = $_SESSION["nama"];
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
-                                $res = $db->query("SELECT * FROM bahan_baku ORDER BY nama_bahan LIMIT $posisi,$batas ");
+                                $res = $db->query("SELECT id_kebutuhan, tanggal, nama, status 
+                                                            FROM kebutuhan_koki JOIN pegawai ON kebutuhan_koki.koki=pegawai.nip 
+                                                            ORDER BY tanggal, FIELD (status,'Tidak Tersedia','Pending','Selesai') LIMIT $posisi,$batas ");
                                 if ($res) {
                                 $jmldata = mysqli_num_rows($res);
                                 $jmlhalaman = ceil($jmldata / $batas);
                                 $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                 foreach ($datajadwal as $data) {
-                                    ?>
+                                ?>
                                     <tr>
-                                        <td><?php echo $data['nama_bahan'];?></td>
-                                        <td><?php echo $data['Harga'];?></td>
-                                        <td><?php echo $data['stok_bahan']." ".$data['satuan'];?></td>
-                                        <td><?php echo $data['tgl_kadaluarsa'];?></td>
-                                        <td class="text-center"><a href="<?php echo $data['id_bahan_baku'];?>   ">Edit</a></td>
+                                        <td><?php echo $data["id_kebutuhan"]; ?></td>
+                                        <td><?php echo $data["tanggal"]; ?></td>
+                                        <td><?php echo $data["nama"]; ?></td>
+                                        <td class="text-center"><?php echo $data["status"]; ?></td>
+                                        <td class="text-center"><a href="detail-kebutuhan.php?id=<?php echo $data["id_kebutuhan"]; ?>&status=<?php echo $data["status"]; ?>">Detail</a></td>
                                     </tr>
                                     <?php
                                 }

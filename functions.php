@@ -32,6 +32,38 @@ function getListBahan()
         return FALSE;
 }
 
+function getListDetailBelanja($idBelanja){
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT data_belanja.Tanggal,data_belanja.total_biaya,bahan_baku.nama_bahan, detail_belanja.jumlah_beli,detail_belanja.satuan, detail_belanja.sub_total 
+                                    FROM data_belanja JOIN detail_belanja ON data_belanja.id_belanja=detail_belanja.id_belanja JOIN bahan_baku ON detail_belanja.id_bahan_baku=bahan_baku.id_bahan_baku 
+                                    WHERE detail_belanja.id_belanja='$idBelanja'");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getListDetailKebutuhan($idKebutuhan){
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT bahan_baku.nama_bahan, detail_kebutuhan.jumlah, bahan_baku.satuan 
+                                    FROM detail_kebutuhan JOIN bahan_baku ON detail_kebutuhan.id_bahan_baku=bahan_baku.id_bahan_baku 
+                                        WHERE detail_kebutuhan.id_kebutuhan='$idKebutuhan' ");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
 function getListMeja()
 {
     $db = dbConnect();
@@ -62,12 +94,12 @@ function getDetailMenu($idpes)
         return FALSE;
 }
 
-function getListMenu()
+function getListMenu($idPes)
 {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT * 
-						 FROM menu WHERE status = 'Tersedia'
+						 FROM menu WHERE status = 'Tersedia' AND menu.id_menu NOT IN (SELECT detail_pesanan.id_menu FROM detail_pesanan WHERE detail_pesanan.id_pesanan='$idPes')
 						 ORDER BY nama_menu");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
@@ -349,38 +381,7 @@ function topBar($username)
                     </div>
                 </li>
                 <li class="nav-item dropdown no-arrow mx-1" role="presentation">
-                <li class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown"
-                                                          aria-expanded="false" href="#"><span
-                                class="badge badge-danger badge-counter">3+</span><i class="fas fa-bell fa-fw"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-list dropdown-menu-right animated--grow-in"
-                         role="menu">
-                        <h6 class="dropdown-header">alerts center</h6>
-                        <a class="d-flex align-items-center dropdown-item" href="#">
-                            <div class="mr-3">
-                                <div class="bg-primary icon-circle"><i class="fas fa-file-alt text-white"></i></div>
-                            </div>
-                            <div><span class="small text-gray-500">December 12, 2019</span>
-                                <p>A new monthly report is ready to download!</p>
-                            </div>
-                        </a>
-                        <a class="d-flex align-items-center dropdown-item" href="#">
-                            <div class="mr-3">
-                                <div class="bg-success icon-circle"><i class="fas fa-donate text-white"></i></div>
-                            </div>
-                            <div><span class="small text-gray-500">December 7, 2019</span>
-                                <p>$290.29 has been deposited into your account!</p>
-                            </div>
-                        </a>
-                        <a class="d-flex align-items-center dropdown-item" href="#">
-                            <div class="mr-3">
-                                <div class="bg-warning icon-circle"><i
-                                            class="fas fa-exclamation-triangle text-white"></i></div>
-                            </div>
-                            <div><span class="small text-gray-500">December 2, 2019</span>
-                                <p>Spending Alert: We've noticed unusually high spending for your account.</p>
-                            </div>
-                        </a><a class="text-center dropdown-item small text-gray-500" href="#">Show All Alerts</a></div>
-                </li>
+
                 </li>
                 <li class="nav-item dropdown no-arrow mx-1" role="presentation">
                     <div class="shadow dropdown-list dropdown-menu dropdown-menu-right"

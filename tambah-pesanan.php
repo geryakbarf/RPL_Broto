@@ -128,7 +128,7 @@ if (isset($_POST['TblReservasi']) or isset($_POST['TblPesanan'])) {
                                 <select class="form-control" name="menu">
                                     <optgroup label="Silahkan Pilih Menu">
                                         <?php
-                                        $datakategori = getListMenu();
+                                        $datakategori = getListMenu($idPes);
                                         foreach ($datakategori as $data) {
                                             echo "<option value=\"" . $data["id_menu"] . "\">" . $data["nama_menu"] . "</option>";
                                         }

@@ -15,10 +15,7 @@ if (isset($_POST["TblSimpan"])) {
         $sql1 = "SELECT * FROM bahan_baku WHERE nama_bahan='$nama'";
         $res1 = $db->query($sql1);
         if (mysqli_num_rows($res1) > 0) {
-            echo "<script>
-                            alert('Bahan Baku Telah Ada!');
-                            </script>";
-            header("Location: ../tambah-bahan-baku.php");
+            echo "Bahan Baku Sudah Ada !";
         } else {
 
             //Query Untuk Insert ke DB
@@ -26,7 +23,7 @@ if (isset($_POST["TblSimpan"])) {
             $res = $db->query($sql);
             if ($res) {
                 if ($db->affected_rows > 0) {//Jika Data Berhasil Disimpan
-                    header("Location: ../bahan-baku.php");
+                    header("Location: ../bahan-baku.php?halaman=1");
                 } else {
                     header("Location: ../tambah-bahan-baku.php");
                 }

@@ -55,7 +55,7 @@ $username = $_SESSION["nama"];
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <a href="bahan-baku.php">
+                                <a href="bahan-baku.php?halaman=1">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row align-items-center no-gutters">
@@ -73,7 +73,7 @@ $username = $_SESSION["nama"];
                                 </a>
                             </div>
                             <div class="col">
-                                <a href="belanja.php">
+                                <a href="belanja.php?halaman=1">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row align-items-center no-gutters">
@@ -91,7 +91,7 @@ $username = $_SESSION["nama"];
                                 </a>
                             </div>
                             <div class="col">
-                                <a href="kebutuhan-koki.php">
+                                <a href="kebutuhan.php?halaman=1">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row align-items-center no-gutters">

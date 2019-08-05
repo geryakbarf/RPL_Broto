@@ -4,9 +4,7 @@ session_start();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
-
 $username = $_SESSION["nama"];
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,9 +43,9 @@ $username = $_SESSION["nama"];
         ?>
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
-               <?php topBar($username); ?>
-            <div class="container-fluid"><a href="tambah-bahan-baku.php"> <button class="btn btn-primary" type="button">Tambah Data</button></a>
-                <h3 class="text-dark mb-4">Daftar Bahan Baku</h3>
+                <?php topBar($username); ?>
+            <div class="container-fluid"><a href="tambah-belanja.html"><a href="tambah-belanja.php"><button class="btn btn-primary" type="button">Tambah Data</button></a></a>
+                <h3 class="text-dark mb-4">Daftar Belanja</h3>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="row">
@@ -62,10 +60,9 @@ $username = $_SESSION["nama"];
                             <table class="table dataTable my-0" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>Nama Bahan Baku</th>
-                                        <th>Harga</th>
-                                        <th>Stok</th>
-                                        <th>Kadaluarsa</th>
+                                        <th>Tanggal Belanja</th>
+                                        <th>Penanggung Jawab</th>
+                                        <th>Total Biaya</th>
                                         <th class="text-center">Pilihan</th>
                                     </tr>
                                 </thead>
@@ -81,19 +78,18 @@ $username = $_SESSION["nama"];
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
-                                $res = $db->query("SELECT * FROM bahan_baku ORDER BY nama_bahan LIMIT $posisi,$batas ");
+                                $res = $db->query("SELECT data_belanja.Tanggal, pegawai.nama, data_belanja.total_biaya, data_belanja.id_belanja FROM data_belanja JOIN pegawai ON data_belanja.Pantry=pegawai.nip ORDER BY data_belanja.Tanggal DESC LIMIT $posisi,$batas ");
                                 if ($res) {
                                 $jmldata = mysqli_num_rows($res);
                                 $jmlhalaman = ceil($jmldata / $batas);
                                 $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                 foreach ($datajadwal as $data) {
-                                    ?>
+                                ?>
                                     <tr>
-                                        <td><?php echo $data['nama_bahan'];?></td>
-                                        <td><?php echo $data['Harga'];?></td>
-                                        <td><?php echo $data['stok_bahan']." ".$data['satuan'];?></td>
-                                        <td><?php echo $data['tgl_kadaluarsa'];?></td>
-                                        <td class="text-center"><a href="<?php echo $data['id_bahan_baku'];?>   ">Edit</a></td>
+                                        <td><?php echo $data["Tanggal"]; ?></td>
+                                        <td><?php echo $data["nama"]; ?></td>
+                                        <td><?php echo $data["total_biaya"]; ?></td>
+                                        <td class="text-center"><a href="detail-belanja.php?id=<?php echo $data["id_belanja"]; ?>&tgl=<?php echo $data["Tanggal"]; ?>&total=<?php echo $data["total_biaya"]; ?>">Detail</a></td>
                                     </tr>
                                     <?php
                                 }
@@ -103,7 +99,6 @@ $username = $_SESSION["nama"];
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -124,7 +119,7 @@ $username = $_SESSION["nama"];
                                         for($i=1;$i<=$jmlhalaman;$i++)
                                             if ($i != $halaman){
                                                 ?>
-                                                <li class="page-item"><a class="page-link" href="kebutuhan.php?halaman=<?php echo $i?>"><?php echo $i?></a></li>
+                                                <li class="page-item"><a class="page-link" href="belanja.php?halaman=<?php echo $i?>"><?php echo $i?></a></li>
                                                 <?php
                                             }
                                             else{
