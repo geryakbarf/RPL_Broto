@@ -16,6 +16,7 @@ if (isset($_POST["TblSimpan"])) {
         $res1 = $db->query($sql1);
         if (mysqli_num_rows($res1) > 0) {
             echo "Bahan Baku Sudah Ada !";
+            echo "<button onclick='window.history.back()'>Kembali</button>";
         } else {
 
             //Query Untuk Insert ke DB

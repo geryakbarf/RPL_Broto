@@ -27,7 +27,7 @@ $username = $_SESSION["nama"];
 
 <body id="page-top">
 <?php
-if(isset($_GET["error"])){
+if (isset($_GET["error"])) {
     $error = $_GET["error"];
     if ($error == 1)
         showError("Menu Telah Ada!.");
@@ -43,23 +43,23 @@ if(isset($_GET["error"])){
 ?>
 <div id="wrapper">
     <?php
-    if($_SESSION["jabatan"]=="Koki") {
+    if ($_SESSION["jabatan"] == "Koki") {
         sideBarKoki();
-    }else if($_SESSION["jabatan"]=="Pantry") {
+    } else if ($_SESSION["jabatan"] == "Pantry") {
         sideBarPantry();
-    }else if($_SESSION["jabatan"]=="Pelayan") {
+    } else if ($_SESSION["jabatan"] == "Pelayan") {
         sideBarPelayan();
-    }else if($_SESSION["jabatan"]=="Kasir") {
+    } else if ($_SESSION["jabatan"] == "Kasir") {
         sideBarKasir();
-    }else if($_SESSION["jabatan"]=="Customer Service") {
+    } else if ($_SESSION["jabatan"] == "Customer Service") {
         sideBarCS();
-    }else if($_SESSION["jabatan"]=="Owner") {
+    } else if ($_SESSION["jabatan"] == "Owner") {
         sideBarOwner();
     }
     ?>
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
-            <?php topBar($username)?>
+            <?php topBar($username) ?>
             <div class="container-fluid"><a href="tambah-menu.php">
                     <button class="btn btn-primary" type="button">Tambah Menu</button>
                 </a>
@@ -99,22 +99,24 @@ if(isset($_GET["error"])){
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
-                                $res = $db->query("SELECT id_menu,nama_menu,harga_menu,status FROM menu LIMIT $posisi,$batas ");
-                                if ($res) {
-                                    $jmldata = mysqli_num_rows($res);
-                                    $jmlhalaman = ceil($jmldata / $batas);
-                                    $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
-                                    foreach ($datajadwal as $data) {
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $data["nama_menu"]; ?></td>
-                                            <td><?php echo $data["harga_menu"]; ?></td>
-                                            <td><?php echo $data["status"]; ?></td>
-                                            <td class="text-center"><a href="localhost/broto/menu-edit.php?id=<?php echo$data["id_menu"]; ?>">Edit</a></td>
-                                        </tr>
-                                        <?php
+                                    $res = $db->query("SELECT id_menu,nama_menu,harga_menu,status FROM menu LIMIT $posisi,$batas ");
+                                    if ($res) {
+                                        $jmldata = mysqli_num_rows($res);
+                                        $jmlhalaman = ceil($jmldata / $batas);
+                                        $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
+                                        foreach ($datajadwal as $data) {
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $data["nama_menu"]; ?></td>
+                                                <td><?php echo $data["harga_menu"]; ?></td>
+                                                <td><?php echo $data["status"]; ?></td>
+                                                <td class="text-center"><a
+                                                            href="edit-menu.php?id=<?php echo $data["id_menu"]; ?>&nama=<?php echo $data["nama_menu"]; ?>&harga=<?php echo $data["harga_menu"]; ?>&status=<?php echo $data["status"]; ?>">Edit</a>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
                                     }
-                                }
                                 }
                                 ?>
                                 </tbody>
@@ -131,21 +133,23 @@ if(isset($_GET["error"])){
                         <div class="row">
                             <div class="col-md-6 align-self-center">
                                 <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Halaman
-                                    <?php echo $halaman?></p>
+                                    <?php echo $halaman ?></p>
                             </div>
                             <div class="col-md-6">
                                 <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
                                     <ul class="pagination">
                                         <?php
-                                        for($i=1;$i<=$jmlhalaman;$i++)
-                                            if ($i != $halaman){
+                                        for ($i = 1; $i <= $jmlhalaman; $i++)
+                                            if ($i != $halaman) {
                                                 ?>
-                                                <li class="page-item"><a class="page-link" href="menu.php?halaman=<?php echo $i?>"><?php echo $i?></a></li>
+                                                <li class="page-item"><a class="page-link"
+                                                                         href="menu.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
+                                                </li>
                                                 <?php
-                                            }
-                                            else{
+                                            } else {
                                                 ?>
-                                                <li class="page-item active"><a class="page-link"><?php echo $i?></a></li>
+                                                <li class="page-item active"><a class="page-link"><?php echo $i ?></a>
+                                                </li>
                                                 <?php
                                             }
                                         ?>
