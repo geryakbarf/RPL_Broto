@@ -94,7 +94,7 @@ $username = $_SESSION["nama"];
                                     <td><?php echo $data['no_meja'];?></td>
                                     <td class="text-center"><?php echo $data['nama'];?></td>
                                     <td class="text-center"><?php echo $data['status'];?></td>
-                                    <td class="text-center">Detail</td>
+                                    <td class="text-center"><a href="detail-pesanan.php?idpes=<?php echo $data['id_pesanan'];?>&nama=<?php echo $data['nama_pelanggan'];?>&meja=<?php echo $data['no_meja'];?>&status=<?php echo $data['status'];?>"> Detail</a></td>
                                 </tr>
                                     <?php
                                 }

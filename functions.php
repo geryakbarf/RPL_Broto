@@ -17,11 +17,11 @@ function showError($message)
     <?php
 }
 
-function getListBahan()
+function getListBahan($id)
 {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT * FROM bahan_baku ORDER BY nama_bahan");
+        $res = $db->query("SELECT * FROM bahan_baku WHERE stok_bahan > 0 AND id_bahan_baku NOT IN (SELECT id_bahan_baku FROM detail_kebutuhan WHERE id_kebutuhan='$id') ORDER BY nama_bahan");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
@@ -51,7 +51,7 @@ function getListDetailBelanja($idBelanja){
 function getListDetailKebutuhan($idKebutuhan){
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT bahan_baku.nama_bahan, detail_kebutuhan.jumlah, bahan_baku.satuan 
+        $res = $db->query("SELECT bahan_baku.nama_bahan, detail_kebutuhan.jumlah, bahan_baku.satuan ,bahan_baku.id_bahan_baku
                                     FROM detail_kebutuhan JOIN bahan_baku ON detail_kebutuhan.id_bahan_baku=bahan_baku.id_bahan_baku 
                                         WHERE detail_kebutuhan.id_kebutuhan='$idKebutuhan' ");
         if ($res) {
@@ -69,6 +69,21 @@ function getListMeja()
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT * FROM meja WHERE Status ='Kosong' ORDER BY no_meja");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getListKebutuhan($id)
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT bahan_baku.id_bahan_baku, bahan_baku.nama_bahan, detail_kebutuhan.jumlah, bahan_baku.satuan FROM bahan_baku JOIN detail_kebutuhan ON bahan_baku.id_bahan_baku=detail_kebutuhan.id_bahan_baku WHERE detail_kebutuhan.id_kebutuhan='$id'");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
@@ -100,6 +115,23 @@ function getListMenu($idPes)
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT * 
 						 FROM menu WHERE status = 'Tersedia' AND menu.id_menu NOT IN (SELECT detail_pesanan.id_menu FROM detail_pesanan WHERE detail_pesanan.id_pesanan='$idPes')
+						 ORDER BY nama_menu");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getMenu()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT * 
+						 FROM menu WHERE status = 'Tersedia'
 						 ORDER BY nama_menu");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);

@@ -17,6 +17,11 @@ $pelayan = $_SESSION['nip'];
 $_SESSION['meja']=$meja;
 $namaPel=$_SESSION['namaPel'];
 $jumlahPel=$_SESSION['jumlahPel'];
+if(strlen($idRes)==0){
+    $status='Pending';
+}else{
+    $status='Reservasi';
+}
 
 $db = dbConnect();
 
@@ -41,7 +46,7 @@ if ($db->connect_errno == 0) {
         }else echo "Error 2";
     } else {
         $sql2 = "INSERT INTO pesanan (id_pesanan,pelayan,nama_pelanggan,jumlah_pelanggan,no_meja,id_reservasi,status) 
-                    VALUES('$idPes','$pelayan','$namaPel','$jumlahPel','$meja','$idRes','Pending') ";
+                    VALUES('$idPes','$pelayan','$namaPel','$jumlahPel','$meja','$idRes','$status') ";
         $res2 = $db->query($sql2);
         if ($res2) {
             if ($db->affected_rows > 0) {

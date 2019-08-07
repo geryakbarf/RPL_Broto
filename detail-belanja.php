@@ -96,7 +96,7 @@ $totalBelanja = $_GET['total'];
                         <div class="input-group-prepend"><span class="input-group-text icon-container"
                                                                style="width: 145px;"><label>Total Harga Belanja</label></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Total" style="height: 45px;" readonly value="<?php echo $totalBelanja;?>"></div>
+                        <input type="text" class="form-control" placeholder="Total" style="height: 45px;" readonly value="Rp. <?php echo $totalBelanja;?>"></div>
                 </div>
             </div>
 

@@ -27,6 +27,21 @@ $username = $_SESSION["nama"];
 </head>
 
 <body id="page-top">
+<?php
+if (isset($_GET["error"])) {
+    $error = $_GET["error"];
+    if ($error == 1)
+        showError("Bahan Baku Telah Ada!.");
+    else if ($error == 2)
+        showError("Error database. Silahkan hubungi administrator");
+    else if ($error == 3)
+        showError("Koneksi ke Database gagal. Autentikasi gagal.");
+    else if ($error == 4)
+        showError("Anda tidak boleh mengakses halaman sebelumnya karena anda bukan koki!.");
+    else
+        showError("Unknown Error.");
+}
+?>
     <div id="wrapper">
         <?php
         if($_SESSION["jabatan"]=="Koki") {
@@ -93,7 +108,7 @@ $username = $_SESSION["nama"];
                                         <td><?php echo $data['Harga'];?></td>
                                         <td><?php echo $data['stok_bahan']." ".$data['satuan'];?></td>
                                         <td><?php echo $data['tgl_kadaluarsa'];?></td>
-                                        <td class="text-center"><a href="<?php echo $data['id_bahan_baku'];?>   ">Edit</a></td>
+                                        <td class="text-center"><a href="edit-bahan-baku.php?id=<?php echo $data['id_bahan_baku'];?>&nama=<?php echo $data['nama_bahan'];?>&harga=<?php echo $data['Harga'];?>&stok=<?php echo $data['stok_bahan'];?>&satuan=<?php echo $data['satuan'];?>&tgl=<?php echo $data['tgl_kadaluarsa'];?>">Edit</a></td>
                                     </tr>
                                     <?php
                                 }

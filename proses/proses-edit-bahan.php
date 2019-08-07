@@ -1,6 +1,6 @@
 <?php
 include_once ("../functions.php");
-if (isset($_POST["TblSimpan"])) {
+if (isset($_POST["TblUpdate"])) {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         //bersihkan data
@@ -11,27 +11,21 @@ if (isset($_POST["TblSimpan"])) {
         $satuan = $db->escape_string(trim($_POST["satuan"]));
         $tanggal = $db->escape_string(trim($_POST["tanggal"]));
 
-        //Mengecek apakah ada nama makanan Yang Sama
-        $sql1 = "SELECT * FROM bahan_baku WHERE nama_bahan='$nama'";
-        $res1 = $db->query($sql1);
-        if (mysqli_num_rows($res1) > 0) {
-            header("Location: ../bahan-baku.php?halaman=1&error=1");
-        } else {
 
             //Query Untuk Insert ke DB
-            $sql = "INSERT INTO bahan_baku(id_bahan_baku,nama_bahan,Harga,stok_bahan,satuan,tgl_kadaluarsa) VALUES ('$id','$nama',$harga,'$stok','$satuan','$tanggal')";
+            $sql = "UPDATE bahan_baku SET nama_bahan='$nama', Harga='$harga',stok_bahan='$stok',satuan='$satuan',tgl_kadaluarsa='$tanggal' WHERE id_bahan_baku='$id'";
             $res = $db->query($sql);
             if ($res) {
                 if ($db->affected_rows > 0) {//Jika Data Berhasil Disimpan
                     header("Location: ../bahan-baku.php?halaman=1");
                 } else {
-                    header("Location: ../bahan-baku.php?halaman=1&error=2");
+                    header("Location: ../bahan-baku.php?halaman=1");
                 }
             }else{
                 header("Location: ../bahan-baku.php?halaman=1&error=3");
             }
         }
-    }
+
 } else
     header("Location: ../bahan-baku.php?halaman=1&error=4");
 

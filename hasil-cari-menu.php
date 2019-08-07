@@ -5,6 +5,7 @@ if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
 $username = $_SESSION["nama"];
+$keyword=$_POST['keyword'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -60,10 +61,9 @@ if (isset($_GET["error"])) {
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
             <?php topBar($username) ?>
-            <div class="container-fluid"><a href="tambah-menu.php">
-                    <button class="btn btn-primary" type="button">Tambah Menu</button>
-                </a>
-                <h1 class="text-dark mb-4">Daftar Menu</h1>
+            <div class="container-fluid">
+                    <button class="btn btn-primary" type="button" onclick="window.history.back()">Kembali</button>
+                <h1 class="text-dark mb-4">Hasil Cari Menu</h1>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="row">
@@ -71,12 +71,7 @@ if (isset($_GET["error"])) {
                                 <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"></div>
                             </div>
                             <div class="col-md-6">
-                                <form name="f" id="f" method="post" action="hasil-cari-menu.php?halaman=1">
-                                    <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input
-                                                    type="search" class="form-control form-control-sm"
-                                                    aria-controls="dataTable" placeholder="Search"
-                                                    name="keyword" id="keyword" required></label></div>
-                                </form>
+
                             </div>
                         </div>
                         <div class="table-responsive table mt-2" id="dataTable" role="grid"
@@ -102,7 +97,8 @@ if (isset($_GET["error"])) {
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
-                                    $res = $db->query("SELECT id_menu,nama_menu,harga_menu,status FROM menu LIMIT $posisi,$batas ");
+                                    $res = $db->query("SELECT id_menu,nama_menu,harga_menu,status FROM menu
+                                    WHERE nama_menu like '%$keyword%' OR harga_menu = '$keyword' OR status like '%$keyword%' LIMIT $posisi,$batas ");
                                     if ($res) {
                                         $jmldata = mysqli_num_rows($res);
                                         $jmlhalaman = ceil($jmldata / $batas);
@@ -176,17 +172,6 @@ if (isset($_GET["error"])) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#f').keydown(function () {
-            var keyword = $("#keyword").val();
-            var key = e.which;
-            if (key == 13) {
-                    $('#f').submit();
-            }
-        });
-    });
-</script>
 </body>
 
 </html>

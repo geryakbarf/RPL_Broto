@@ -1,5 +1,5 @@
 <?php
-include_once ("../functions.php");
+include_once("../functions.php");
 if (isset($_POST["TblUpdate"])) {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
@@ -13,7 +13,7 @@ if (isset($_POST["TblUpdate"])) {
         $sql1 = "SELECT * FROM menu WHERE nama_menu='$nama' AND harga_menu='$harga' AND status='$status'";
         $res1 = $db->query($sql1);
         if (mysqli_num_rows($res1) > 0) {
-            header("Location: ../menu.php?halaman=1&error=1");
+            header("Location: ../menu.php?halaman=1");
         } else {
 
             //Query Untuk Insert ke DB
@@ -24,13 +24,13 @@ if (isset($_POST["TblUpdate"])) {
                     header("Location: ../menu.php?halaman=1");
                 } else {
 
-                   header("Location: ../menu.php?halaman=1");
+                    header("Location: ../menu.php?halaman=1");
                 }
-            }else{
+            } else {
                 header("Location: ../menu.php?halaman=1&error=3");
             }
         }
-    }else
+    } else
         header("Location: ../menu.php?halaman=1&error=3");
 } else
     header("Location: ../menu.php?halaman=1&error=4");

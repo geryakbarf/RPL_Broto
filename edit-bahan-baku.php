@@ -8,7 +8,12 @@ if (!isset($_SESSION["jabatan"])=="Pantry") {
     header("Location: bahan-baku.php?halaman=1");
 }
 $username = $_SESSION["nama"];
-$id=getName(5);
+$idBahan=$_GET['id'];
+$namaBahan=$_GET['nama'];
+$hargaBahan=$_GET['harga'];
+$stokBahan=$_GET['stok'];
+$satuanBahan=$_GET['satuan'];
+$tgl=$_GET['tgl'];
 
 ?>
 <!DOCTYPE html>
@@ -51,46 +56,65 @@ $id=getName(5);
         <div id="content">
             <?php topBar($username); ?>
             <div class="container-fluid">
-                <h3 class="text-dark mb-1">Tambah Bahan Baku<br><br></h3>
+                <h3 class="text-dark mb-1">Edit Bahan Baku<br><br></h3>
             </div>
-            <form name="f" method="post" action="proses/proses-tambah-bahan.php" onsubmit="return validdasiData()">
+            <form name="f" method="post" action="proses/proses-edit-bahan.php" onsubmit="return validdasiData()">
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-align-justify"></i></span></div>
-                    <input type="text" class="form-control" value="<?php echo $id;?>" placeholder="Id Bahan Baku" name="id" style="margin-right: 60px;" readonly>
+                    <input type="text" class="form-control" value="<?php echo $idBahan;?>" placeholder="Id Bahan Baku" name="id" style="margin-right: 60px;" readonly>
                 </div>
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fas fa-mortar-pestle"></i></span></div>
-                    <input type="text" class="form-control" name="nama" placeholder="Nama Bahan Baku" style="margin-right: 60px;" required maxlength="25">
+                    <input type="text" class="form-control" name="nama" value="<?php echo $namaBahan;?>" placeholder="Nama Bahan Baku" style="margin-right: 60px;" required maxlength="25">
                 </div>
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fas fa-money-bill-alt"></i></span></div>
-                    <input type="text" class="form-control" name="harga" placeholder="Harga Bahan Baku" style="margin-right: 60px;" required maxlength="6">
+                    <input type="text" class="form-control" name="harga" value="<?php echo $hargaBahan;?>" placeholder="Harga Bahan Baku" style="margin-right: 60px;" required maxlength="6">
                 </div>
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fas fa-dolly-flatbed"></i></span></div>
-                    <input type="text" class="form-control" name="stok" placeholder="Stok Bahan Baku" style="margin-right: 60px;" required maxlength="5">
+                    <input type="text" class="form-control" name="stok" placeholder="Stok Bahan Baku" value="<?php echo $stokBahan;?>" style="margin-right: 60px;" required maxlength="5">
                 </div>
 
                 <div class="field"><select class="form-control" name="satuan"
                                            style="margin-right: 0px;margin-left: 20px;width: 910px;">
                         <optgroup label="Pilih Satuan Untuk Stok">
-                            <option value="Kg" selected="">Kg</option>
-                            <option value="Bungkus">Bungkus</option>
-                            <option value="Buah">Buah</option>
+                            <?php
+                            if($satuanBahan=='Kg'){
+                                ?>
+                                <option value="Kg" selected="">Kg</option>
+                                <option value="Bungkus">Bungkus</option>
+                                <option value="Buah">Buah</option>
+                            <?php
+                            }else if($satuanBahan=='Bungkus'){
+                                ?>
+                                <option value="Kg">Kg</option>
+                                <option value="Bungkus" selected>Bungkus</option>
+                                <option value="Buah">Buah</option>
+                            <?php
+                            }else{
+                                ?>
+                                <option value="Kg">Kg</option>
+                                <option value="Bungkus">Bungkus</option>
+                                <option value="Buah" selected>Buah</option>
+                            <?php
+                            }
+                            ?>
+
                         </optgroup>
                     </select><label class="mb-0"
                                     for="float-input" style="margin-left: 20px;">Satuan Stok</label></div>
                 <h3 class="text-dark mb-4" style="margin-left: 20px;margin-bottom: 0px;">Tanggal Kadaluarsa</h3>
                 <div class="input-group" style="margin-left: 20px;margin-right: 20px;">
 
-                    <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="far fa-calendar-times"></i></span></div><input type="date" name="tanggal" required></div>
+                    <div class="input-group-prepend"><span class="input-group-text icon-container"><i class="far fa-calendar-times"></i></span></div><input type="date" name="tanggal" value="<?php echo $tgl;?>" required></div>
 
                 <button class="btn btn-primary" type="submit"
-                        style="margin-top: 20px;margin-right: 40px;" name="TblSimpan">Simpan
+                        style="margin-top: 20px;margin-right: 40px;" name="TblUpdate">Simpan
                 </button>
         </div>
         </form>

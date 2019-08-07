@@ -53,23 +53,22 @@ $_SESSION['idPel'] = $idPel;
             <div class="container-fluid">
                 <h3 class="text-dark mb-1">Tambah Pesanan (1)<br><br></h3>
             </div>
-            <form name="f" method="post" action="tambah-pesanan.php">
+            <form name="f" method="post" action="tambah-pesanan.php" onsubmit="return validdasiData()">
 
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fas fa-user"></i></span></div>
                     <input type="text" class="form-control" name="nama" placeholder="Nama Pemesan"
-                           style="margin-right: 60px;" maxlength="25"></div>
+                           style="margin-right: 60px;" maxlength="25" required></div>
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-users"></i></span></div>
                     <input type="text" class="form-control" name="jumlahOrang" placeholder="Jumlah Pelanggan"
                            style="margin-right: 60px;" maxlength="2" required></div>
-                <a href="tambah-pesanan.php">
                     <button class="btn btn-primary" type="submit"
                             style="margin-top: 20px;margin-right: 40px;" name="TblPesanan">Lanjut
                     </button>
-                </a>
+
         </div>
         </form>
         <footer class="bg-white sticky-footer">
@@ -87,6 +86,21 @@ $_SESSION['idPel'] = $idPel;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
+<SCRIPT>
+    function validdasiData() {
+        var angka= document.f.jumlahOrang.value;
+        if(isNaN(angka) || angka >= 10 || angka.length==0 || angka<0){
+            alert("Masukkan Jumlah Pelanggan Yang Valid!");
+            return false;
+        }
+        var menu= document.f.nama.value;
+        if(menu.length==0){
+            alert("Masukkan Nama Pelanggan!");
+            return false;
+        }
+        return true;
+    }
+</SCRIPT>
 </body>
 
 </html>

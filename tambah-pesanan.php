@@ -64,6 +64,13 @@ if (isset($_POST['TblReservasi']) or isset($_POST['TblPesanan'])) {
 </head>
 
 <body id="page-top">
+<?php
+if (isset($_GET["error"])) {
+    $error = $_GET["error"];
+    if ($error == 1)
+        showError("Anda belum memilih menu apapun!.");
+}
+?>
 <div id="wrapper">
     <?php
     if($_SESSION["jabatan"]=="Koki") {
@@ -92,7 +99,7 @@ if (isset($_POST['TblReservasi']) or isset($_POST['TblPesanan'])) {
                 <input type="text" name="idPes" class="form-control" placeholder="Id Pesanan" value="<?php echo $idPes; ?>"
                        style="margin-right: 60px;" readonly></div>
 
-            <form name="f" method="post" action="proses/proses-tambah-pesanan.php">
+            <form name="f" method="post" action="proses/proses-tambah-pesanan.php" onsubmit="return validdasiData()">
 
                     <div class="field" style="margin-left: 20px;margin-right: 40px;"><select class="form-control" name="meja">
                             <optgroup label="Silahkan Pilih Meja Nomor">
@@ -144,7 +151,7 @@ if (isset($_POST['TblReservasi']) or isset($_POST['TblPesanan'])) {
                         <div class="input-group" style="margin-top: 20px;">
                             <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                             class="fa fa-align-justify"></i></span></div>
-                            <input type="text" class="form-control" placeholder="Jumlah" name="jumlah"></div>
+                            <input type="number" class="form-control" placeholder="Jumlah" name="jumlah" required></div>
                     </div>
                     <div class="col">
                         <button class="btn btn-primary" type="submit" style="margin-top: 20px;">Tambah</button>
@@ -171,7 +178,7 @@ if (isset($_POST['TblReservasi']) or isset($_POST['TblPesanan'])) {
                     <tr>
                         <td><?php echo $data["nama_menu"]; ?></td>
                         <td><?php echo $data["jumlah"]; ?></td>
-                        <td class="text-center"><a href="proses-hapus-detail.php?idmenu=<?php echo$data["id_menu"]; ?>&idpes=<?php echo$data['id_pesanan']; ?>">Hapus</a></td>
+                        <td class="text-center"><a href="proses/proses-hapus-detail-pesanan.php?idMenu=<?php echo$data["id_menu"]; ?>&id=<?php echo$data['id_pesanan']; ?>">Hapus</a></td>
                     </tr>
                     <?php
                         }
@@ -207,6 +214,16 @@ if (isset($_POST['TblReservasi']) or isset($_POST['TblPesanan'])) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
+<SCRIPT>
+    function validdasiData() {
+        var angka= document.f.jumlah.value;
+        if(isNaN(angka) || angka.length==0 || angka<0){
+            alert("Masukkan Jumlah Pesanan Yang Valid!");
+            return false;
+        }
+        return true;
+    }
+</SCRIPT>
 </body>
 
 </html>

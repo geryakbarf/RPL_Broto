@@ -91,13 +91,20 @@ $randomId= getName(5);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
-<SCRIPT>
+<SCRIPT language="JavaScript">
     function validdasiData() {
         var angka= document.f.harga.value;
-        if(isNaN(angka) || angka < 100){
+        if(isNaN(angka) || angka < 100 || angka.length==0){
             alert("Masukkan Harga Yang Valid!");
             return false;
         }
+        var menu= document.f.nama.value;
+        if(menu.length==0){
+            alert("Masukkan Nama Menu!");
+            return false;
+        }
+
+
         return true;
     }
 </SCRIPT>
