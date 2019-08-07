@@ -149,7 +149,7 @@ if (isset($_GET["error"])) {
                                             if ($i != $halaman) {
                                                 ?>
                                                 <li class="page-item"><a class="page-link"
-                                                                         href="kebutuhan.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
+                                                                         href="bahan-baku.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
                                                 </li>
                                                 <?php
                                             } else {

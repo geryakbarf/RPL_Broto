@@ -94,6 +94,21 @@ function getListMeja()
         return FALSE;
 }
 
+function getMeja()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT * FROM meja ORDER BY no_meja");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
 function getListKebutuhan($id)
 {
     $db = dbConnect();

@@ -140,7 +140,7 @@ $username = $_SESSION["nama"];
                                             if ($i != $halaman) {
                                                 ?>
                                                 <li class="page-item"><a class="page-link"
-                                                                         href="menu.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
+                                                                         href="pesanan.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
                                                 </li>
                                                 <?php
                                             } else {
