@@ -32,10 +32,25 @@ function getListBahan($id)
         return FALSE;
 }
 
+function getBahan($id)
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT * FROM bahan_baku WHERE id_bahan_baku NOT IN (SELECT id_bahan_baku FROM detail_belanja WHERE id_belanja='$id') ORDER BY nama_bahan");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
 function getListDetailBelanja($idBelanja){
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT data_belanja.Tanggal,data_belanja.total_biaya,bahan_baku.nama_bahan, detail_belanja.jumlah_beli,detail_belanja.satuan, detail_belanja.sub_total 
+        $res = $db->query("SELECT detail_belanja.id_bahan_baku, data_belanja.Tanggal,data_belanja.total_biaya,bahan_baku.nama_bahan, detail_belanja.jumlah_beli,bahan_baku.satuan, detail_belanja.sub_total 
                                     FROM data_belanja JOIN detail_belanja ON data_belanja.id_belanja=detail_belanja.id_belanja JOIN bahan_baku ON detail_belanja.id_bahan_baku=bahan_baku.id_bahan_baku 
                                     WHERE detail_belanja.id_belanja='$idBelanja'");
         if ($res) {
@@ -108,6 +123,8 @@ function getDetailMenu($idpes)
     } else
         return FALSE;
 }
+
+
 
 function getListMenu($idPes)
 {

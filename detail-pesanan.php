@@ -48,7 +48,7 @@ $status = $_GET['status'];
             <?php topBar($username) ?>
             <div class="container-fluid">
                 <h3 class="text-dark mb-4">Detail Pesanan</h3>
-                <form name="f" method="post" action="proses/proses-edit-pesanan.php">
+                <form name="f" method="post" action="proses/proses-edit-detail-pesanan.php">
                     <div class="card shadow">
                         <div class="card-body">
                             <div class="input-group">
@@ -60,21 +60,23 @@ $status = $_GET['status'];
                                 <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                                 class="fa fa-user"></i></span></div>
                                 <input type="text" class="form-control" placeholder="Pemesan" name="nama"
-                                readonly required value="<?php echo $nama;?>"></div>
+                                       readonly required value="<?php echo $nama; ?>"></div>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                                 class="fa fa-table"></i></span></div>
                                 <input type="text" class="form-control" placeholder="Nomor Meja" name="meja"
-                                required readonly value="<?php echo $meja;?>"></div>
+                                       required readonly value="<?php echo $meja; ?>">
+                                <input type="hidden" name="status" value="<?php echo $status; ?>"></div>
                             <?php
-                            if ($_SESSION['jabatan'] == "Pelayan") {
+                            if ($_SESSION['jabatan'] == "Pelayan" and $status != 'Dibayar') {
                                 ?>
                                 <div class="row" style="margin-left: 20px;margin-right: 40px;">
                                     <div class="col" style="width: 500px;">
-                                        <div class="field" style="margin-left: 0;"><select class="form-control" name="menu">
-                                                <optgroup label="This is a group">
+                                        <div class="field" style="margin-left: 0;"><select class="form-control"
+                                                                                           name="menu">
+                                                <optgroup label="Pilih Menu">
                                                     <?php
-                                                    $datakategori = getListMenu($idpes);
+                                                    $datakategori = getMenu();
                                                     foreach ($datakategori as $data) {
                                                         echo "<option value=\"" . $data["id_menu"] . "\">" . $data["nama_menu"] . "</option>";
                                                     }
@@ -90,7 +92,8 @@ $status = $_GET['status'];
                                             <div class="input-group-prepend"><span
                                                         class="input-group-text icon-container"><i
                                                             class="fa fa-align-justify"></i></span></div>
-                                            <input type="number" class="form-control" placeholder="Jumlah" name="jumlah" required></div>
+                                            <input type="number" class="form-control" placeholder="Jumlah" name="jumlah"
+                                                   required></div>
                                     </div>
                                     <div class="col">
                                         <button class="btn btn-primary" type="submit" name="TblDetail"
@@ -112,13 +115,20 @@ $status = $_GET['status'];
                         </thead>
                         <tbody>
                         <?php
-                        $datadetail=getDetailMenu($idpes);
-                        foreach ($datadetail as $data){
+                        $datadetail = getDetailMenu($idpes);
+                        foreach ($datadetail as $data) {
                             ?>
                             <tr>
                                 <td><?php echo $data["nama_menu"]; ?></td>
                                 <td><?php echo $data["jumlah"]; ?></td>
-                                <td class="text-center"><a href="proses/proses-hapus-detail-pesanan.php?idMenu=<?php echo$data["id_menu"]; ?>&id=<?php echo$data['id_pesanan']; ?>">Hapus</a></td>
+                                <?php if ($status != 'Dibayar') {
+                                    ?>
+                                    <td class="text-center"><a
+                                                href="proses/proses-hapus-pesanan-detail.php?idMenu=<?php echo $data["id_menu"]; ?>&id=<?php echo $data['id_pesanan']; ?>&idpes=<?php echo $idpes; ?>&nama=<?php echo $nama; ?>&meja=<?php echo $meja; ?>&status=<?php echo $status; ?>">Hapus</a>
+                                    </td>
+                                    <?php
+                                }
+                                ?>
                             </tr>
                             <?php
                         }
@@ -162,13 +172,9 @@ $status = $_GET['status'];
                                     <?php
                                 } else if ($status == 'Dibayar') {
                                     ?>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Selesai">Selesai</option>
-                                    <option value="Dimasak">Dimasak</option>
                                     <option value="Dibayar" selected>Dibayar</option>
-                                    <option value="Reservasi">Reservasi</option>
                                     <?php
-                                }else if ($status == 'Reservasi') {
+                                } else if ($status == 'Reservasi') {
                                     ?>
                                     <option value="Pending">Pending</option>
                                     <option value="Selesai">Selesai</option>
@@ -183,11 +189,12 @@ $status = $_GET['status'];
                         <label
                                 class="mb-0" for="float-input">Status Pesanan</label>
                     </div>
-                    <input type="hidden" name="id" value="<?php echo $idpes;?>">
-                    <input type="hidden" name="meja" value="<?php echo $meja;?>">
-                    <input type="hidden" name="statusawal" value="<?php echo $status;?>">
+                    <input type="hidden" name="id" value="<?php echo $idpes; ?>">
+                    <input type="hidden" name="meja" value="<?php echo $meja; ?>">
+                    <input type="hidden" name="statusawal" value="<?php echo $status; ?>">
                     <button class="btn btn-primary" type="submit" name="TblUpdate">Simpan</button>
-                </form></div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

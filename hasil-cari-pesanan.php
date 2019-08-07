@@ -5,7 +5,9 @@ if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
 $username = $_SESSION["nama"];
+$keyword=$_POST['keyword'];
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -45,31 +47,31 @@ $username = $_SESSION["nama"];
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
             <?php topBar($username); ?>
-            <div class="container-fluid"><a href="tambah-belanja.php">
-                        <button class="btn btn-primary" type="button">Tambah Data</button>
-                    </a>
-                <h3 class="text-dark mb-4">Daftar Belanja</h3>
+            <div class="container-fluid">
+                    <button class="btn btn-primary" type="button" onclick="window.history.back()">Kembali</button>
+                <h3 class="text-dark mb-4">Hasil Pencarian Pesanan</h3>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 text-nowrap">
                                 <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"></div>
                             </div>
+
                             <div class="col-md-6">
-                                <form name="f" id="f" method="post" action="hasil-cari-belanja.php?halaman=1">
-                                <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input
-                                                type="search" class="form-control form-control-sm"
-                                                aria-controls="dataTable" placeholder="Search" name="keyword" id="keyword" required></label></div></form>
+
                             </div>
+
                         </div>
                         <div class="table-responsive table mt-2" id="dataTable" role="grid"
                              aria-describedby="dataTable_info">
                             <table class="table dataTable my-0" id="dataTable">
                                 <thead>
                                 <tr>
-                                    <th>Tanggal Belanja</th>
-                                    <th>Penanggung Jawab</th>
-                                    <th>Total Biaya</th>
+                                    <th>Nomor Pesanan</th>
+                                    <th>Pemesan</th>
+                                    <th>Nomor Meja</th>
+                                    <th class="text-center">Penanggung Jawab</th>
+                                    <th class="text-center">Status</th>
                                     <th class="text-center">Pilihan</th>
                                 </tr>
                                 </thead>
@@ -85,7 +87,7 @@ $username = $_SESSION["nama"];
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
-                                    $res = $db->query("SELECT data_belanja.Tanggal, pegawai.nama, data_belanja.total_biaya, data_belanja.id_belanja FROM data_belanja JOIN pegawai ON data_belanja.Pantry=pegawai.nip ORDER BY data_belanja.Tanggal DESC LIMIT $posisi,$batas ");
+                                    $res = $db->query("SELECT pesanan.id_pesanan, pesanan.nama_pelanggan, pesanan.no_meja, pegawai.nama, pesanan.status FROM pesanan JOIN pegawai ON pesanan.pelayan=pegawai.nip WHERE pesanan.id_pesanan like '%$keyword%' OR pesanan.nama_pelanggan like '%$keyword%' OR pesanan.no_meja='$keyword' OR pegawai.nama like '%$keyword%' OR pesanan.status='$keyword' ORDER BY FIELD(status,'Pending','Dimasak','Selesai','Dibayar') LIMIT $posisi,$batas ");
                                     if ($res) {
                                         $jmldata = mysqli_num_rows($res);
                                         $jmlhalaman = ceil($jmldata / $batas);
@@ -93,12 +95,14 @@ $username = $_SESSION["nama"];
                                         foreach ($datajadwal as $data) {
                                             ?>
                                             <tr>
-                                                <td><?php echo $data["Tanggal"]; ?></td>
-                                                <td><?php echo $data["nama"]; ?></td>
-                                                <td><?php echo $data["total_biaya"]; ?></td>
+                                                <td><?php echo $data['id_pesanan']; ?></td>
+                                                <td><?php echo $data['nama_pelanggan']; ?></td>
+                                                <td><?php echo $data['no_meja']; ?></td>
+                                                <td class="text-center"><?php echo $data['nama']; ?></td>
+                                                <td class="text-center"><?php echo $data['status']; ?></td>
                                                 <td class="text-center"><a
-                                                            href="detail-belanja.php?id=<?php echo $data["id_belanja"]; ?>&tgl=<?php echo $data["Tanggal"]; ?>&total=<?php echo $data["total_biaya"]; ?>">Detail</a>
-                                                </td>
+                                                            href="detail-pesanan.php?idpes=<?php echo $data['id_pesanan']; ?>&nama=<?php echo $data['nama_pelanggan']; ?>&meja=<?php echo $data['no_meja']; ?>&status=<?php echo $data['status']; ?>">
+                                                        Detail</a></td>
                                             </tr>
                                             <?php
                                         }
@@ -108,6 +112,8 @@ $username = $_SESSION["nama"];
                                 </tbody>
                                 <tfoot>
                                 <tr>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -129,7 +135,7 @@ $username = $_SESSION["nama"];
                                             if ($i != $halaman) {
                                                 ?>
                                                 <li class="page-item"><a class="page-link"
-                                                                         href="belanja.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
+                                                                         href="menu.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
                                                 </li>
                                                 <?php
                                             } else {
@@ -165,7 +171,6 @@ $username = $_SESSION["nama"];
 <script>
     $(document).ready(function () {
         $('#f').keydown(function () {
-            var keyword = $("#keyword").val();
             var key = e.which;
             if (key == 13) {
                 $('#f').submit();

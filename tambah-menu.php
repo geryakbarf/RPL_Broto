@@ -62,7 +62,7 @@ $randomId= getName(5);
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-align-justify"></i></span></div>
-                    <input type="text" class="form-control" name="harga" placeholder="Harga Menu"
+                    <input type="number" class="form-control" name="harga" placeholder="Harga Menu"
                            style="margin-right: 60px;" required></div>
 
                 <div class="field"><select class="form-control" name="status"

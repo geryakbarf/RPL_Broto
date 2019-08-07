@@ -72,12 +72,12 @@ $tgl=$_GET['tgl'];
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fas fa-money-bill-alt"></i></span></div>
-                    <input type="text" class="form-control" name="harga" value="<?php echo $hargaBahan;?>" placeholder="Harga Bahan Baku" style="margin-right: 60px;" required maxlength="6">
+                    <input type="number" class="form-control" name="harga" value="<?php echo $hargaBahan;?>" placeholder="Harga Bahan Baku" style="margin-right: 60px;" required maxlength="6">
                 </div>
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fas fa-dolly-flatbed"></i></span></div>
-                    <input type="text" class="form-control" name="stok" placeholder="Stok Bahan Baku" value="<?php echo $stokBahan;?>" style="margin-right: 60px;" required maxlength="5">
+                    <input type="number" class="form-control" name="stok" placeholder="Stok Bahan Baku" value="<?php echo $stokBahan;?>" style="margin-right: 60px;" required maxlength="5">
                 </div>
 
                 <div class="field"><select class="form-control" name="satuan"

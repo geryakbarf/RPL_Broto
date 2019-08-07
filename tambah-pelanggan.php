@@ -63,7 +63,7 @@ $_SESSION['idPel'] = $idPel;
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-users"></i></span></div>
-                    <input type="text" class="form-control" name="jumlahOrang" placeholder="Jumlah Pelanggan"
+                    <input type="number" class="form-control" name="jumlahOrang" placeholder="Jumlah Pelanggan"
                            style="margin-right: 60px;" maxlength="2" required></div>
                     <button class="btn btn-primary" type="submit"
                             style="margin-top: 20px;margin-right: 40px;" name="TblPesanan">Lanjut
