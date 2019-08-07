@@ -66,8 +66,8 @@ $username = $_SESSION["nama"];
                                     <div class="row align-items-center no-gutters">
                                         <div class="col mr-2">
                                             <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
-                                                <span>pemasukan (Bulanan)</span></div>
-                                            <div class="text-dark font-weight-bold h5 mb-0"><span>Rp. 100.000.000</span>
+                                                <span>pemasukan (Bulan ini)</span></div>
+                                            <div class="text-dark font-weight-bold h5 mb-0"><span>Rp. <?php echo $pemasukan=getPemasukan(); ?></span>
                                             </div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
@@ -82,8 +82,8 @@ $username = $_SESSION["nama"];
                                     <div class="row align-items-center no-gutters">
                                         <div class="col mr-2">
                                             <div class="text-uppercase text-success font-weight-bold text-xs mb-1">
-                                                <span>pengeluaran (bulanan)</span></div>
-                                            <div class="text-dark font-weight-bold h5 mb-0"><span>Rp. 34.000.000</span>
+                                                <span>pengeluaran (bulan ini)</span></div>
+                                            <div class="text-dark font-weight-bold h5 mb-0"><span>Rp. <?php echo $pemasukan=getPengeluaran(); ?></span>
                                             </div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -95,41 +95,48 @@ $username = $_SESSION["nama"];
                         <?php
                     }
                     ?>
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-info py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Meja tersedia</span>
-                                        </div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>6</span>
+                    <?php
+                    if (!$_SESSION["jabatan"] == "Kasir" or !$_SESSION["jabatan"] == "Owner"){
+                        ?>
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-left-info py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col mr-2">
+                                            <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Meja tersedia</span>
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>6</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-auto"><i class="fas fa-tablet fa-2x text-gray-300"></i></div>
                                     </div>
-                                    <div class="col-auto"><i class="fas fa-tablet fa-2x text-gray-300"></i></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-warning py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>Pesanan belum diproses</span>
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-left-warning py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col mr-2">
+                                            <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>Pesanan belum diproses</span>
+                                            </div>
+                                            <div class="text-dark font-weight-bold h5 mb-0"><span>5</span></div>
                                         </div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>5</span></div>
-                                    </div>
-                                    <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    <?php
+                    }
+                    ?>
+
                 </div>
             </div>
         </div>

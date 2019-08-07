@@ -47,7 +47,8 @@ function getBahan($id)
         return FALSE;
 }
 
-function getListDetailBelanja($idBelanja){
+function getListDetailBelanja($idBelanja)
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT detail_belanja.id_bahan_baku, data_belanja.Tanggal,data_belanja.total_biaya,bahan_baku.nama_bahan, detail_belanja.jumlah_beli,bahan_baku.satuan, detail_belanja.sub_total 
@@ -63,7 +64,8 @@ function getListDetailBelanja($idBelanja){
         return FALSE;
 }
 
-function getListDetailKebutuhan($idKebutuhan){
+function getListDetailKebutuhan($idKebutuhan)
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT bahan_baku.nama_bahan, detail_kebutuhan.jumlah, bahan_baku.satuan ,bahan_baku.id_bahan_baku
@@ -140,7 +142,6 @@ function getDetailMenu($idpes)
 }
 
 
-
 function getListMenu($idPes)
 {
     $db = dbConnect();
@@ -184,6 +185,75 @@ function getListPesanan()
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
             return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getPesanan()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT * FROM pesanan WHERE status = 'Selesai'");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getPemasukan()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT sum(total_bayar) as pemasukan FROM pembayaran WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE())");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            foreach ($data as $datum){
+                $pemasukan=$datum['pemasukan'];
+            }
+            return $pemasukan;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getPengeluaran()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT sum(total_biaya) as pengeluaran FROM data_belanja WHERE MONTH(Tanggal)=MONTH(CURDATE()) AND YEAR(Tanggal)=YEAR(CURDATE())");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            foreach ($data as $datum){
+                $pengeluaran=$datum['pengeluaran'];
+            }
+            return $pengeluaran;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getNomorMeja($id)
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT meja.no_meja FROM meja JOIN pesanan ON pesanan.no_meja=meja.no_meja WHERE pesanan.id_pesanan='$id' ");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            foreach ($data as $datum) {
+                $meja = $datum['no_meja'];
+            }
+            return $meja;
         } else
             return FALSE;
     } else
@@ -302,7 +372,8 @@ function sideBarCS()
                 <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
                                 class="fas fa-home"></i><span>Beranda</span></a>
                     <a
-                            class="nav-link" href="kuisioner.php?halaman=1"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a></li>
+                            class="nav-link" href="kuisioner.php?halaman=1"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a>
+                </li>
             </ul>
             <div class="text-center d-none d-md-inline">
                 <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
@@ -328,7 +399,7 @@ function sideBarKasir()
                                 class="fas fa-home"></i><span>Beranda</span></a><a
                             class="nav-link" href="pembayaran.php?halaman=1"><i
                                 class="fas fa-money-bill-alt"></i><span>Pembayaran</span></a>
-                  </li>
+                </li>
             </ul>
             <div class="text-center d-none d-md-inline">
                 <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>

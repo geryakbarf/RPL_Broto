@@ -5,6 +5,7 @@ if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
 $username = $_SESSION["nama"];
+$keyword = $_POST['keyword'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,9 +46,8 @@ $username = $_SESSION["nama"];
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
             <?php topBar($username); ?>
-            <div class="container-fluid"><a href="tambah-pembayaran.php">
-                    <button class="btn btn-primary" type="button">Tambah Data</button>
-                </a>
+            <div class="container-fluid">
+                <button class="btn btn-primary" type="button" onclick="window.history.back()">Kembali</button>
                 <h3 class="text-dark mb-4">Pembayaran</h3>
                 <div class="card shadow">
                     <div class="card-body">
@@ -56,10 +56,6 @@ $username = $_SESSION["nama"];
                                 <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"></div>
                             </div>
                             <div class="col-md-6">
-                                <form name="f" id="f" method="post" action="hasil-cari-pembayaran.php?halaman=1">
-                                <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input
-                                                type="search" class="form-control form-control-sm"
-                                                aria-controls="dataTable" placeholder="Search" required name="keyword"></label></div></form>
                             </div>
                         </div>
                         <div class="table-responsive table mt-2" id="dataTable" role="grid"
@@ -89,7 +85,9 @@ $username = $_SESSION["nama"];
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
-                                    $res = $db->query("SELECT * FROM pembayaran ORDER BY tanggal DESC LIMIT $posisi,$batas ");
+                                    $res = $db->query("SELECT * FROM pembayaran WHERE no_pembayaran LIKE '%$keyword%' OR id_pesanan LIKE '%$keyword%' OR tanggal LIKE '%$keyword%' 
+                                                              OR sub_total='$keyword' OR reservasi='$keyword' OR total_bayar='$keyword' OR bayar='$keyword' 
+                                                              OR kembalian='$keyword' ORDER BY tanggal DESC LIMIT $posisi,$batas ");
                                     if ($res) {
                                         $jmldata = mysqli_num_rows($res);
                                         $jmlhalaman = ceil($jmldata / $batas);
@@ -172,17 +170,6 @@ $username = $_SESSION["nama"];
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#f').keydown(function () {
-            var keyword = $("#keyword").val();
-            var key = e.which;
-            if (key == 13) {
-                $('#f').submit();
-            }
-        });
-    });
-</script>
 </body>
 
 </html>
