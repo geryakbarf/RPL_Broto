@@ -96,7 +96,7 @@ $username = $_SESSION["nama"];
                     }
                     ?>
                     <?php
-                    if (!$_SESSION["jabatan"] == "Kasir" or !$_SESSION["jabatan"] == "Owner"){
+                    if ($_SESSION["jabatan"] <> "Kasir" or $_SESSION["jabatan"] <> "Owner"){
                         ?>
                         <div class="col-md-6 col-xl-3 mb-4">
                             <div class="card shadow border-left-info py-2">
