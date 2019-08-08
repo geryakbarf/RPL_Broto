@@ -4,6 +4,9 @@ session_start();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
+if ($_SESSION["jabatan"]<>"Pantry") {
+    header("Location: dapur.php");
+}
 $username = $_SESSION["nama"];
 ?>
 <!DOCTYPE html>

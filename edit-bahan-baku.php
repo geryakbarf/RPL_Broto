@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
-if (!isset($_SESSION["jabatan"])=="Pantry") {
+if ($_SESSION["jabatan"]<>"Pantry") {
     header("Location: bahan-baku.php?halaman=1");
 }
 $username = $_SESSION["nama"];

@@ -4,6 +4,9 @@ session_start();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
+if ($_SESSION["jabatan"]<>"Koki") {
+    header("Location: menu.php?halaman=1");
+}
 $username = $_SESSION["nama"];
 $id = $_GET['id'];
 $nama = $_GET['nama'];
