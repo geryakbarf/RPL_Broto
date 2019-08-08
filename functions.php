@@ -47,6 +47,57 @@ function getBahan($id)
         return FALSE;
 }
 
+function getIsi($id)
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT isi_kuis FROM kuisioner WHERE id_kuis='$id'");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            foreach ($data as $datum){
+                $isi=$datum['isi_kuis'];
+            }
+            return $isi;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getJawaban($idkuis,$nopem)
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT jawaban_kuis FROM detail_kuis WHERE id_kuis='$idkuis' AND no_pembayaran='$nopem'");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            foreach ($data as $datum){
+                $isi=$datum['jawaban_kuis'];
+            }
+            return $isi;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getListJawaban($id)
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT pesanan.nama_pelanggan, detail_kuis.tanggal, detail_kuis.jawaban_kuis FROM detail_kuis JOIN pembayaran ON detail_kuis.no_pembayaran=pembayaran.no_pembayaran JOIN pesanan ON pembayaran.id_pesanan=pesanan.id_pesanan WHERE detail_kuis.id_kuis='$id' ");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
 function getListDetailBelanja($idBelanja)
 {
     $db = dbConnect();

@@ -26,6 +26,21 @@ $username = $_SESSION["nama"];
 </head>
 
 <body id="page-top">
+<?php
+if (isset($_GET["error"])) {
+    $error = $_GET["error"];
+    if ($error == 1)
+        showError("Kuisioner Telah Ada!.");
+    else if ($error == 2)
+        showError("Error database. Silahkan hubungi administrator");
+    else if ($error == 3)
+        showError("Koneksi ke Database gagal. Autentikasi gagal.");
+    else if ($error == 4)
+        showError("Anda tidak boleh mengakses halaman sebelumnya karena anda bukan koki!.");
+    else
+        showError("Unknown Error.");
+}
+?>
 <div id="wrapper">
     <?php
     if ($_SESSION["jabatan"] == "Koki") {
@@ -45,7 +60,7 @@ $username = $_SESSION["nama"];
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
             <?php topBar($username); ?>
-            <div class="container-fluid"><a href="tambah-kuisioner.html">
+            <div class="container-fluid"><a href="tambah-kuisioner.php">
                     <button class="btn btn-primary" type="button">Tambah Kuisioner</button>
                 </a>
                 <h3 class="text-dark mb-4">Daftar Kuisioner</h3>
@@ -95,7 +110,7 @@ $username = $_SESSION["nama"];
                                                 <td><?php echo $data['id_kuis']; ?></td>
                                                 <td><?php echo $data['isi_kuis']; ?></td>
                                                 <td class="text-center"><a
-                                                            href="detail-kuisioner.php?id=<?php echo $data['id_kuis']; ?>">
+                                                            href="detail-kuisioner.php?id=<?php echo $data['id_kuis']; ?>&halaman=1">
                                                         Detail</a></td>
                                             </tr>
                                             <?php

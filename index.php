@@ -50,7 +50,7 @@ $username = $_SESSION["nama"];
                     <?php
                     if ($_SESSION["jabatan"] == "Kasir" or $_SESSION["jabatan"] == "Owner") {
                         ?>
-                        <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i
+                        <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="laporan.php"><i
                                     class="fas fa-download fa-sm text-white-50"></i>&nbsp;Buat Laporan</a>
                         <?php
                     }
@@ -96,7 +96,7 @@ $username = $_SESSION["nama"];
                     }
                     ?>
                     <?php
-                    if ($_SESSION["jabatan"] <> "Kasir" or $_SESSION["jabatan"] <> "Owner"){
+                    if ($_SESSION["jabatan"] == "Pantry" or $_SESSION["jabatan"] == "Pelayan" or $_SESSION["jabatan"] == "Customer Service" or $_SESSION["jabatan"] == "Koki"){
                         ?>
                         <div class="col-md-6 col-xl-3 mb-4">
                             <div class="card shadow border-left-info py-2">
