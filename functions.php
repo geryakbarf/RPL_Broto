@@ -420,8 +420,7 @@ function sideBarCS()
             </a>
             <hr class="sidebar-divider my-0">
             <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
-                                class="fas fa-home"></i><span>Beranda</span></a>
+                <li class="nav-item" role="presentation">
                     <a
                             class="nav-link" href="kuisioner.php?halaman=1"><i class="fas fa-clipboard"></i><span>Kuisioner</span></a>
                 </li>
@@ -529,8 +528,7 @@ function sideBarPantry()
             </a>
             <hr class="sidebar-divider my-0">
             <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="index.php"><i
-                                class="fas fa-home"></i><span>Beranda</span></a><a
+                <li class="nav-item" role="presentation"><a
                             class="nav-link" href="dapur.php"><i
                                 class="fas fa-warehouse"></i><span>Data Dapur</span></a></li>
             </ul>
