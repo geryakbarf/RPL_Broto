@@ -100,10 +100,12 @@ if (isset($_GET["error"])) {
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
+                                    $count = $db->query("SELECT * FROM bahan_baku WHERE nama_bahan like '%$keyword%' OR Harga like '%$keyword%' OR stok_bahan like '%$keyword%' OR tgl_kadaluarsa LIKE '%$keyword%'
+                                                                ORDER BY stok_bahan");
                                     $res = $db->query("SELECT * FROM bahan_baku WHERE nama_bahan like '%$keyword%' OR Harga like '%$keyword%' OR stok_bahan like '%$keyword%' OR tgl_kadaluarsa LIKE '%$keyword%'
-ORDER BY stok_bahan LIMIT $posisi,$batas ");
+                                                        ORDER BY stok_bahan LIMIT $posisi,$batas ");
                                     if ($res) {
-                                        $jmldata = mysqli_num_rows($res);
+                                        $jmldata = mysqli_num_rows($count);
                                         $jmlhalaman = ceil($jmldata / $batas);
                                         $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                         foreach ($datajadwal as $data) {

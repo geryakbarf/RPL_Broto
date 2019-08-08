@@ -85,10 +85,12 @@ $username = $_SESSION["nama"];
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
+                                    $count = $db->query("SELECT reservasi.id_reservasi, reservasi.tanggal, pesanan.nama_pelanggan, pesanan.no_meja, pesanan.id_pesanan 
+                                                        FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi  ORDER BY reservasi.tanggal DESC");
                                     $res = $db->query("SELECT reservasi.id_reservasi, reservasi.tanggal, pesanan.nama_pelanggan, pesanan.no_meja, pesanan.id_pesanan 
                                                         FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi  ORDER BY reservasi.tanggal DESC LIMIT $posisi,$batas ");
                                     if ($res) {
-                                        $jmldata = mysqli_num_rows($res);
+                                        $jmldata = mysqli_num_rows($count);
                                         $jmlhalaman = ceil($jmldata / $batas);
                                         $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                         foreach ($datajadwal as $data) {
@@ -99,7 +101,7 @@ $username = $_SESSION["nama"];
                                                 <td><?php echo $data["nama_pelanggan"]; ?></td>
                                                 <td class="text-center"><?php echo $data["no_meja"]; ?></td>
                                                 <td class="text-center"><a
-                                                            href="detail-reservasi.php?id=<?php echo $data["id_reservasi"]; ?>">Detail</a>
+                                                            href="detail-reservasi.php?idres=<?php echo $data["id_reservasi"]; ?>&tanggal=<?php echo $data["tanggal"]; ?>&nama=<?php echo $data["nama_pelanggan"]; ?>&meja=<?php echo $data["no_meja"]; ?>">Detail</a>
                                                 </td>
                                             </tr>
                                             <?php

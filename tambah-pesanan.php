@@ -217,7 +217,7 @@ if (isset($_GET["error"])) {
 <SCRIPT>
     function validdasiData() {
         var angka= document.f.jumlah.value;
-        if(isNaN(angka) || angka.length==0 || angka<0){
+        if(isNaN(angka) || angka.length==0 || angka<1){
             alert("Masukkan Jumlah Pesanan Yang Valid!");
             return false;
         }

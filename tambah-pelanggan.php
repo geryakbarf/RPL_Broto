@@ -89,7 +89,7 @@ $_SESSION['idPel'] = $idPel;
 <SCRIPT>
     function validdasiData() {
         var angka= document.f.jumlahOrang.value;
-        if(isNaN(angka) || angka >= 10 || angka.length==0 || angka<0){
+        if(isNaN(angka) || angka.length==0 || angka<1){
             alert("Masukkan Jumlah Pelanggan Yang Valid!");
             return false;
         }

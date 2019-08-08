@@ -108,9 +108,7 @@ $menu = $_GET['menu'];
                                         <?php
                                     } else if ($status == 'Tidak Tersedia') {
                                         ?>
-                                        <option value="Pending">Pending</option>
                                         <option value="Tidak Tersedia" selected="selected">Tidak Tersedia</option>
-                                        <option value="Selesai">Selesai</option>
                                         <?php
                                     } else {
                                         ?>

@@ -89,9 +89,10 @@ $username = $_SESSION["nama"];
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
+                                    $count = $db->query("SELECT * FROM pembayaran ORDER BY tanggal DESC");
                                     $res = $db->query("SELECT * FROM pembayaran ORDER BY tanggal DESC LIMIT $posisi,$batas ");
                                     if ($res) {
-                                        $jmldata = mysqli_num_rows($res);
+                                        $jmldata = mysqli_num_rows($count);
                                         $jmlhalaman = ceil($jmldata / $batas);
                                         $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                         foreach ($datajadwal as $data) {

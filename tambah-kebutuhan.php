@@ -241,7 +241,7 @@ if (isset($_GET["error"])) {
             alert("Stok Untuk Bahan Baku "+nama+" Kurang dari yang anda inginkan! "+ stok+" < "+angka);
             return false;
         }
-        if (isNaN(angka) || angka.length == 0 || angka < 0) {
+        if (isNaN(angka) || angka.length == 0 || angka < 1) {
             alert("Masukkan Jumlah Yang Valid!");
             return false;
         }

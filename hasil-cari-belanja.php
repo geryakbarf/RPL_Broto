@@ -84,10 +84,12 @@ $keyword = $_POST['keyword'];
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
+                                    $count = $db->query("SELECT data_belanja.Tanggal, pegawai.nama, data_belanja.total_biaya, data_belanja.id_belanja FROM data_belanja JOIN pegawai ON data_belanja.Pantry=pegawai.nip
+                                                                WHERE data_belanja.Tanggal like '%$keyword%' OR pegawai.nama LIKE '%$keyword%' OR data_belanja.total_biaya='$keyword' ORDER BY data_belanja.Tanggal DESC");
                                     $res = $db->query("SELECT data_belanja.Tanggal, pegawai.nama, data_belanja.total_biaya, data_belanja.id_belanja FROM data_belanja JOIN pegawai ON data_belanja.Pantry=pegawai.nip
-  WHERE data_belanja.Tanggal like '%$keyword%' OR pegawai.nama LIKE '%$keyword%' OR data_belanja.total_biaya='$keyword' ORDER BY data_belanja.Tanggal DESC LIMIT $posisi,$batas ");
+                                                                WHERE data_belanja.Tanggal like '%$keyword%' OR pegawai.nama LIKE '%$keyword%' OR data_belanja.total_biaya='$keyword' ORDER BY data_belanja.Tanggal DESC LIMIT $posisi,$batas ");
                                     if ($res) {
-                                        $jmldata = mysqli_num_rows($res);
+                                        $jmldata = mysqli_num_rows($count);
                                         $jmlhalaman = ceil($jmldata / $batas);
                                         $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                         foreach ($datajadwal as $data) {

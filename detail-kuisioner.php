@@ -82,10 +82,12 @@ $id=$_GET['id'];
                                 $posisi = ($halaman - 1) * $batas;
                             }
                             if ($db->connect_errno == 0) {
+                                $count = $db->query("SELECT detail_kuis.no_pembayaran,pesanan.nama_pelanggan, detail_kuis.tanggal, detail_kuis.jawaban_kuis FROM detail_kuis JOIN pembayaran ON detail_kuis.no_pembayaran=pembayaran.no_pembayaran
+                                                        JOIN pesanan ON pembayaran.id_pesanan=pesanan.id_pesanan WHERE detail_kuis.id_kuis='$id' ORDER BY detail_kuis.tanggal DESC");
                                 $res = $db->query("SELECT detail_kuis.no_pembayaran,pesanan.nama_pelanggan, detail_kuis.tanggal, detail_kuis.jawaban_kuis FROM detail_kuis JOIN pembayaran ON detail_kuis.no_pembayaran=pembayaran.no_pembayaran
                                                         JOIN pesanan ON pembayaran.id_pesanan=pesanan.id_pesanan WHERE detail_kuis.id_kuis='$id' ORDER BY detail_kuis.tanggal DESC LIMIT $posisi,$batas ");
                                 if ($res) {
-                                    $jmldata = mysqli_num_rows($res);
+                                    $jmldata = mysqli_num_rows($count);
                                     $jmlhalaman = ceil($jmldata / $batas);
                                     $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                     foreach ($datajadwal as $data) {

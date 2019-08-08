@@ -85,11 +85,14 @@ $keyword = $_POST['keyword'];
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
+                                    $count = $db->query("SELECT * FROM pembayaran WHERE no_pembayaran LIKE '%$keyword%' OR id_pesanan LIKE '%$keyword%' OR tanggal LIKE '%$keyword%' 
+                                                              OR sub_total='$keyword' OR reservasi='$keyword' OR total_bayar='$keyword' OR bayar='$keyword' 
+                                                              OR kembalian='$keyword' ORDER BY tanggal DESC");
                                     $res = $db->query("SELECT * FROM pembayaran WHERE no_pembayaran LIKE '%$keyword%' OR id_pesanan LIKE '%$keyword%' OR tanggal LIKE '%$keyword%' 
                                                               OR sub_total='$keyword' OR reservasi='$keyword' OR total_bayar='$keyword' OR bayar='$keyword' 
                                                               OR kembalian='$keyword' ORDER BY tanggal DESC LIMIT $posisi,$batas ");
                                     if ($res) {
-                                        $jmldata = mysqli_num_rows($res);
+                                        $jmldata = mysqli_num_rows($count);
                                         $jmlhalaman = ceil($jmldata / $batas);
                                         $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                         foreach ($datajadwal as $data) {

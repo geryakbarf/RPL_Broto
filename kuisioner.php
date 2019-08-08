@@ -71,9 +71,10 @@ if (isset($_GET["error"])) {
                                 <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"></div>
                             </div>
                             <div class="col-md-6">
+                                <form name="f" id="f" method="post" action="hasil-cari-kuisioner.php?halaman=1">
                                 <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input
                                                 type="search" class="form-control form-control-sm"
-                                                aria-controls="dataTable" placeholder="Search"></label></div>
+                                                aria-controls="dataTable" placeholder="Search" name="keyword" required></label></div></form>
                             </div>
                         </div>
                         <div class="table-responsive table mt-2" id="dataTable" role="grid"
@@ -87,7 +88,6 @@ if (isset($_GET["error"])) {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tbody>
                                 <?php
                                 $db = dbConnect();
                                 $batas = 10;
@@ -99,9 +99,10 @@ if (isset($_GET["error"])) {
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
+                                    $count = $db->query("SELECT * FROM kuisioner");
                                     $res = $db->query("SELECT * FROM kuisioner LIMIT $posisi,$batas ");
                                     if ($res) {
-                                        $jmldata = mysqli_num_rows($res);
+                                        $jmldata = mysqli_num_rows($count);
                                         $jmlhalaman = ceil($jmldata / $batas);
                                         $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                         foreach ($datajadwal as $data) {
@@ -141,7 +142,7 @@ if (isset($_GET["error"])) {
                                             if ($i != $halaman) {
                                                 ?>
                                                 <li class="page-item"><a class="page-link"
-                                                                         href="pesanan.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
+                                                                         href="kuisioner.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
                                                 </li>
                                                 <?php
                                             } else {
@@ -174,6 +175,17 @@ if (isset($_GET["error"])) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#f').keydown(function () {
+            var keyword = $("#keyword").val();
+            var key = e.which;
+            if (key == 13) {
+                $('#f').submit();
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

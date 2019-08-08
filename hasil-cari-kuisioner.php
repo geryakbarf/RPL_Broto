@@ -31,7 +31,7 @@ $keyword=$_POST['keyword'];
 if (isset($_GET["error"])) {
     $error = $_GET["error"];
     if ($error == 1)
-        showError("Menu Telah Ada!.");
+        showError("Kuisioner Telah Ada!.");
     else if ($error == 2)
         showError("Error database. Silahkan hubungi administrator");
     else if ($error == 3)
@@ -60,10 +60,10 @@ if (isset($_GET["error"])) {
     ?>
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
-            <?php topBar($username) ?>
+            <?php topBar($username); ?>
             <div class="container-fluid">
                     <button class="btn btn-primary" type="button" onclick="window.history.back()">Kembali</button>
-                <h1 class="text-dark mb-4">Hasil Cari Menu</h1>
+                <h3 class="text-dark mb-4">Hasil Pencarian Kuisioner</h3>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="row">
@@ -79,16 +79,15 @@ if (isset($_GET["error"])) {
                             <table class="table dataTable my-0" id="dataTable">
                                 <thead>
                                 <tr>
-                                    <th>Nama Menu</th>
-                                    <th>Harga</th>
-                                    <th>Status</th>
+                                    <th>ID Kuis</th>
+                                    <th>Pertanyaan</th>
                                     <th class="text-center">Pilihan</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php
                                 $db = dbConnect();
-                                $batas = 20;
+                                $batas = 10;
                                 $halaman = $_GET['halaman'];
                                 if (empty($halaman)) {
                                     $posisi = 0;
@@ -97,10 +96,8 @@ if (isset($_GET["error"])) {
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
-                                    $count = $db->query("SELECT id_menu,nama_menu,harga_menu,status FROM menu
-                                    WHERE nama_menu like '%$keyword%' OR harga_menu = '$keyword' OR status like '%$keyword%'");
-                                    $res = $db->query("SELECT id_menu,nama_menu,harga_menu,status FROM menu
-                                    WHERE nama_menu like '%$keyword%' OR harga_menu = '$keyword' OR status like '%$keyword%' LIMIT $posisi,$batas ");
+                                    $count = $db->query("SELECT * FROM kuisioner WHERE id_kuis LIKE '%$keyword%' OR isi_kuis LIKE '%$keyword%'");
+                                    $res = $db->query("SELECT * FROM kuisioner WHERE id_kuis LIKE '%$keyword%' OR isi_kuis LIKE '%$keyword%' LIMIT $posisi,$batas ");
                                     if ($res) {
                                         $jmldata = mysqli_num_rows($count);
                                         $jmlhalaman = ceil($jmldata / $batas);
@@ -108,12 +105,11 @@ if (isset($_GET["error"])) {
                                         foreach ($datajadwal as $data) {
                                             ?>
                                             <tr>
-                                                <td><?php echo $data["nama_menu"]; ?></td>
-                                                <td><?php echo $data["harga_menu"]; ?></td>
-                                                <td><?php echo $data["status"]; ?></td>
+                                                <td><?php echo $data['id_kuis']; ?></td>
+                                                <td><?php echo $data['isi_kuis']; ?></td>
                                                 <td class="text-center"><a
-                                                            href="edit-menu.php?id=<?php echo $data["id_menu"]; ?>&nama=<?php echo $data["nama_menu"]; ?>&harga=<?php echo $data["harga_menu"]; ?>&status=<?php echo $data["status"]; ?>">Edit</a>
-                                                </td>
+                                                            href="detail-kuisioner.php?id=<?php echo $data['id_kuis']; ?>&halaman=1">
+                                                        Detail</a></td>
                                             </tr>
                                             <?php
                                         }
@@ -123,7 +119,6 @@ if (isset($_GET["error"])) {
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -144,7 +139,7 @@ if (isset($_GET["error"])) {
                                             if ($i != $halaman) {
                                                 ?>
                                                 <li class="page-item"><a class="page-link"
-                                                                         href="menu.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
+                                                                         href="kuisioner.php?halaman=<?php echo $i ?>"><?php echo $i ?></a>
                                                 </li>
                                                 <?php
                                             } else {
@@ -171,9 +166,23 @@ if (isset($_GET["error"])) {
     <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/Bootstrap-DateTime-Picker-1.js"></script>
+<script src="assets/js/Bootstrap-DateTime-Picker-2.js"></script>
+<script src="assets/js/Bootstrap-DateTime-Picker.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#f').keydown(function () {
+            var keyword = $("#keyword").val();
+            var key = e.which;
+            if (key == 13) {
+                $('#f').submit();
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

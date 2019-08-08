@@ -51,7 +51,7 @@ $status = $_GET['status'];
             <div class="container-fluid">
                 <h3 class="text-dark mb-1">Perbarui Data Meja<br><br></h3>
             </div>
-            <form name="f" method="post" action="proses/proses-edit-meja.php">
+            <form name="f" method="post" action="proses/proses-edit-meja.php" onsubmit="return validdasiData()">
             <div class="input-group" style="margin-left: 20px;">
                 <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                 class="fa fa-align-justify"></i></span></div>
@@ -99,6 +99,23 @@ $status = $_GET['status'];
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
+<SCRIPT>
+    function validdasiData() {
+        var angka = parseInt(document.f.nomor.value);
+        var nomor = parseInt(document.f.kursi.value);
+        if (isNaN(angka) || angka.length == 0 || angka < 1) {
+            alert("Masukkan Nomor Meja Yang Valid!");
+            return false;
+        }
+
+        if (isNaN(nomor) || nomor.length == 0 || nomor < 1) {
+            alert("Masukkan Jumlah Kursi Yang Valid!");
+            return false;
+        }
+
+        return true;
+    }
+</SCRIPT>
 </body>
 
 </html>

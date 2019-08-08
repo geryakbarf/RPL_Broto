@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
-if (!isset($_SESSION["jabatan"]) == "Pantry") {
+if ($_SESSION["jabatan"] <> "Pantry") {
     header("Location: bahan-baku.php?halaman=1");
 }
 $username = $_SESSION["nama"];
@@ -66,7 +66,7 @@ if (isset($_GET["error"])) {
             <div class="container-fluid">
                 <h3 class="text-dark mb-1">Tambah Belanja<br></h3>
             </div>
-            <form name="f" method="post" action="proses/proses-tambah-belanja.php">
+            <form name="f" method="post" action="proses/proses-tambah-belanja.php" onsubmit="return validdasiData()">
                 <div class="input-group" style="margin-left: 20px;margin-top: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-align-justify"></i></span></div>
@@ -170,6 +170,16 @@ if (isset($_GET["error"])) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
+<SCRIPT>
+    function validdasiData() {
+        var angka= document.f.jumlah.value;
+        if(isNaN(angka) || angka.length==0 || angka<1) {
+            alert("Masukkan Jumlah Yang Valid!");
+            return false;
+        }
+        return true;
+    }
+</SCRIPT>
 </body>
 
 </html>

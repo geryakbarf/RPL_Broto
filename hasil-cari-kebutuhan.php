@@ -82,12 +82,16 @@ $keyword=$_POST['keyword'];
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
+                                    $count = $db->query("SELECT id_kebutuhan, tanggal, nama, kebutuhan_koki.status,nama_menu 
+                                                            FROM kebutuhan_koki JOIN pegawai ON kebutuhan_koki.koki=pegawai.nip JOIN menu ON menu.id_menu=kebutuhan_koki.id_menu
+                                                            WHERE id_kebutuhan LIKE '%$keyword%' OR tanggal LIKE '%$keyword%' OR nama LIKE '%$keyword%' OR kebutuhan_koki.status='$keyword'
+                                                            ORDER BY tanggal DESC, FIELD (kebutuhan_koki.status,'Tidak Tersedia','Pending','Selesai')");
                                     $res = $db->query("SELECT id_kebutuhan, tanggal, nama, kebutuhan_koki.status,nama_menu 
                                                             FROM kebutuhan_koki JOIN pegawai ON kebutuhan_koki.koki=pegawai.nip JOIN menu ON menu.id_menu=kebutuhan_koki.id_menu
                                                             WHERE id_kebutuhan LIKE '%$keyword%' OR tanggal LIKE '%$keyword%' OR nama LIKE '%$keyword%' OR kebutuhan_koki.status='$keyword'
                                                             ORDER BY tanggal DESC, FIELD (kebutuhan_koki.status,'Tidak Tersedia','Pending','Selesai') LIMIT $posisi,$batas ");
                                     if ($res) {
-                                        $jmldata = mysqli_num_rows($res);
+                                        $jmldata = mysqli_num_rows($count);
                                         $jmlhalaman = ceil($jmldata / $batas);
                                         $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                         foreach ($datajadwal as $data) {

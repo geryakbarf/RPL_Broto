@@ -136,7 +136,7 @@ $tgl=$_GET['tgl'];
 <SCRIPT>
     function validdasiData() {
         var angka= document.f.harga.value;
-        if(isNaN(angka) || angka.length==0 || angka<0){
+        if(isNaN(angka) || angka.length==0 || angka<1){
             alert("Masukkan Harga Yang Valid!");
             return false;
         }

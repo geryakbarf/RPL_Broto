@@ -102,9 +102,10 @@ if (isset($_GET["error"])) {
                                     $posisi = ($halaman - 1) * $batas;
                                 }
                                 if ($db->connect_errno == 0) {
+                                    $count=$db->query("SELECT id_menu,nama_menu,harga_menu,status FROM menu");
                                     $res = $db->query("SELECT id_menu,nama_menu,harga_menu,status FROM menu LIMIT $posisi,$batas ");
                                     if ($res) {
-                                        $jmldata = mysqli_num_rows($res);
+                                        $jmldata = mysqli_num_rows($count);
                                         $jmlhalaman = ceil($jmldata / $batas);
                                         $datajadwal = $res->fetch_all(MYSQLI_ASSOC);
                                         foreach ($datajadwal as $data) {

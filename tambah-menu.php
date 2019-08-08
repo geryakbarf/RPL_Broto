@@ -61,12 +61,12 @@ $randomId= getName(5);
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-align-justify"></i></span></div>
                     <input type="text" class="form-control" name="nama" placeholder="Nama Menu"
-                           style="margin-right: 60px;" required></div>
+                           style="margin-right: 60px;" required maxlength="25"></div>
                 <div class="input-group" style="margin-left: 20px;">
                     <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                     class="fa fa-align-justify"></i></span></div>
                     <input type="number" class="form-control" name="harga" placeholder="Harga Menu"
-                           style="margin-right: 60px;" required></div>
+                           style="margin-right: 60px;" required maxlength="6"></div>
 
                 <div class="field"><select class="form-control" name="status"
                                            style="margin-right: 0px;margin-left: 20px;width: 910px;">
