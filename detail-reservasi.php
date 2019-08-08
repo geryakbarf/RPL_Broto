@@ -7,8 +7,8 @@ $nama = $_GET['nama'];
 $meja = $_GET['meja'];
 $tanggal = $_GET['tanggal'];
 $tgl = substr($tanggal, 0, 10);
-//$jam = str_replace('.',':',substr($tanggal, 10, -3));
-$jam = substr($tanggal, 10, -3);
+$jam = date("H:i", strtotime($tanggal));
+//$jam = substr($tanggal, 10, -3);
 //getID
 $db = dbConnect();
 $sql = "SELECT id_pesanan,status FROM pesanan, reservasi WHERE pesanan.id_reservasi=reservasi.id_reservasi AND reservasi.id_reservasi='$idres'";
@@ -159,18 +159,24 @@ foreach ($data as $new) {
                         </tfoot>
                     </table>
                 </div>
-                <form name="k" method="post" action="proses/proses-edit-reservasi.php">
+                <form name="k" method="post" action="proses/proses-simpan-reservasi.php">
                     <h3 class="text-dark mb-4" style="margin-left: 20px;margin-bottom: 20px; margin-top: 0px">Tanggal
                         Reservasi</h3>
                     <div class="input-group" style="margin-left: 20px;margin-right: 20px;">
                         <div class="input-group-prepend"><span class="input-group-text icon-container"><i
                                         class="far fa-calendar-times"></i></span></div>
-                        <input type="date" name="tanggal" value="<?php echo $tgl; ?>" required>
-                        <input type="time" name="jam" value="<?php echo $jam; ?>" required></div>
+                        <input type="date" name="tanggal" value="<?php echo $tgl; ?>" required
+                            <?php
+                            if($status<>'Reservasi')echo " readonly"
+                            ?>>
+                        <input type="time" name="jam" value="<?php echo $jam; ?>" required <?php
+                        if($status<>'Reservasi')echo " readonly"
+                        ?>></div>
                     <div class="field" style="margin-left: 0;"><select class="form-control" name="meja">
                             <optgroup label="Nomor Meja">
                                 <?php
                                 $datameja = getListMeja();
+                                if($status=='Reservasi'){
                                 foreach ($datameja as $data) {
                                     if($data['no_meja']==$meja){
                                         ?>
@@ -181,6 +187,12 @@ foreach ($data as $new) {
                                         <option value="<?php echo $data['no_meja'];?>"><?php echo $data['no_meja'];?></option>
                                         <?php
                                     }
+                                }
+                                }
+                                else{
+                                    ?>
+                                <option value="<?php echo $meja?>"><?php echo $meja?></option>
+                                <?php
                                 }
                                 ?>
                             </optgroup>
@@ -196,8 +208,8 @@ foreach ($data as $new) {
                         <label
                                 class="mb-0" for="float-input">Status Pesanan</label>
                     </div>
-                    <input type="hidden" name="id" value="<?php echo $idres; ?>">
-                    <input type="hidden" name="meja" value="<?php echo $meja; ?>">
+                    <input type="hidden" name="idres" value="<?php echo $idres; ?>">
+                    <input type="hidden" name="idpes" value="<?php echo $idpes?>">
                     <button class="btn btn-primary" type="submit" name="TblUpdate">Simpan</button>
                 </form>
             </div>
