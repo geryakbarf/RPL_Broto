@@ -13,7 +13,7 @@ $status = $_GET['status'];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Table - Brand</title>
+    <title>Detail Pesanan - Broto</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
@@ -48,7 +48,7 @@ $status = $_GET['status'];
             <?php topBar($username) ?>
             <div class="container-fluid">
                 <h3 class="text-dark mb-4">Detail Pesanan</h3>
-                <form name="f" method="post" action="proses/proses-edit-detail-pesanan.php">
+                <form name="f" method="post" action="proses/proses-edit-detail-pesanan.php" onsubmit="return validdasiData()">
                     <div class="card shadow">
                         <div class="card-body">
                             <div class="input-group">
@@ -121,7 +121,7 @@ $status = $_GET['status'];
                             <tr>
                                 <td><?php echo $data["nama_menu"]; ?></td>
                                 <td><?php echo $data["jumlah"]; ?></td>
-                                <?php if ($status != 'Dibayar') {
+                                <?php if ($status != 'Dibayar' AND $_SESSION['jabatan']=='Pelayan') {
                                     ?>
                                     <td class="text-center"><a
                                                 href="proses/proses-hapus-pesanan-detail.php?idMenu=<?php echo $data["id_menu"]; ?>&id=<?php echo $data['id_pesanan']; ?>&idpes=<?php echo $idpes; ?>&nama=<?php echo $nama; ?>&meja=<?php echo $meja; ?>&status=<?php echo $status; ?>">Hapus</a>
@@ -212,6 +212,16 @@ $status = $_GET['status'];
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
+<SCRIPT>
+    function validdasiData() {
+        var angka= document.f.jumlah.value;
+        if(isNaN(angka) || angka.length==0 || angka<1){
+            alert("Masukkan Jumlah Pesanan Yang Valid!");
+            return false;
+        }
+        return true;
+    }
+</SCRIPT>
 </body>
 
 </html>

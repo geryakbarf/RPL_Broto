@@ -5,6 +5,7 @@ if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
 $username = $_SESSION["nama"];
+$keyword=$_POST['keyword'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,9 +46,9 @@ $username = $_SESSION["nama"];
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
             <?php topBar($username); ?>
-            <div class="container-fluid"><a href="tambah-reservasi.php">
-                    <button class="btn btn-primary" type="button">Tambah Data</button>
-                </a>
+            <div class="container-fluid">
+                    <button class="btn btn-primary" type="button" onclick="window.history.back()">Kembali</button>
+
                 <h3 class="text-dark mb-4">Reservasi</h3>
                 <div class="card shadow">
                     <div class="card-body">
@@ -56,12 +57,7 @@ $username = $_SESSION["nama"];
                                 <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"></div>
                             </div>
                             <div class="col-md-6">
-                                <form name="f" id="f" method="post" action="hasil-cari-reservasi.php?halaman=1">
-                                    <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input
-                                                    type="search" class="form-control form-control-sm"
-                                                    aria-controls="dataTable" placeholder="Search" name="keyword"
-                                                    required></label></div>
-                                </form>
+
                             </div>
                         </div>
                         <div class="table-responsive table mt-2" id="dataTable" role="grid"
@@ -89,9 +85,9 @@ $username = $_SESSION["nama"];
                                 }
                                 if ($db->connect_errno == 0) {
                                     $count = $db->query("SELECT reservasi.id_reservasi, reservasi.tanggal, pesanan.nama_pelanggan, pesanan.no_meja, pesanan.id_pesanan 
-                                                        FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi  ORDER BY reservasi.tanggal DESC");
+                                                        FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi WHERE reservasi.id_reservasi LIKE '%$keyword%' OR pesanan.no_meja='$keyword' OR reservasi.tanggal LIKE '%$keyword%' OR pesanan.nama_pelanggan LIKE '%$keyword%' ORDER BY reservasi.tanggal DESC");
                                     $res = $db->query("SELECT reservasi.id_reservasi, reservasi.tanggal, pesanan.nama_pelanggan, pesanan.no_meja, pesanan.id_pesanan 
-                                                        FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi  ORDER BY reservasi.tanggal DESC LIMIT $posisi,$batas ");
+                                                        FROM reservasi JOIN pesanan ON reservasi.id_reservasi=pesanan.id_reservasi WHERE reservasi.id_reservasi LIKE '%$keyword%' OR pesanan.no_meja='$keyword' OR reservasi.tanggal LIKE '%$keyword%' OR pesanan.nama_pelanggan LIKE '%$keyword%' ORDER BY reservasi.tanggal DESC LIMIT $posisi,$batas ");
                                     if ($res) {
                                         $jmldata = mysqli_num_rows($count);
                                         $jmlhalaman = ceil($jmldata / $batas);

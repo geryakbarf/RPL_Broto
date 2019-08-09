@@ -61,7 +61,7 @@ foreach ($data as $new) {
             <?php topBar($username) ?>
             <div class="container-fluid">
                 <h3 class="text-dark mb-4">Detail Reservasi</h3>
-                <form name="f" method="post" action="proses/proses-edit-detail-reservasi.php">
+                <form name="f" method="post" action="proses/proses-edit-detail-reservasi.php" onsubmit="return validdasiData()">
                     <div class="card shadow">
                         <div class="card-body">
                             <div class="input-group">
@@ -83,7 +83,7 @@ foreach ($data as $new) {
                             </div>
 
                             <?php
-                            if ($_SESSION['jabatan'] == "Pelayan" and $status != 'Dibayar') {
+                            if ($_SESSION['jabatan'] == "Pelayan" and $status == 'Reservasi') {
                                 ?>
                                 <div class="row" style="margin-left: 20px;margin-right: 40px;">
                                     <div class="col" style="width: 500px;">
@@ -137,7 +137,7 @@ foreach ($data as $new) {
                             <tr>
                                 <td><?php echo $data["nama_menu"]; ?></td>
                                 <td><?php echo $data["jumlah"]; ?></td>
-                                <?php if ($status != 'Dibayar') {
+                                <?php if ($status == 'Reservasi') {
                                     ?>
                                     <td class="text-center"><a
                                                 href="proses/proses-hapus-reservasi-detail.php?idMenu=<?php echo $data["id_menu"]; ?>&id=<?php echo $data['id_pesanan']; ?>&idpes=<?php echo $idpes; ?>&nama=<?php echo $nama; ?>&meja=<?php echo $meja; ?>&status=<?php echo $status; ?>&idres=<?php echo $idres; ?>&tanggal=<?php echo $tanggal; ?>">Hapus</a>
@@ -230,6 +230,16 @@ foreach ($data as $new) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
+<SCRIPT>
+    function validdasiData() {
+        var angka= document.f.jumlah.value;
+        if(isNaN(angka) || angka.length==0 || angka<1){
+            alert("Masukkan Jumlah Pesanan Yang Valid!");
+            return false;
+        }
+        return true;
+    }
+</SCRIPT>
 </body>
 
 </html>
