@@ -5,6 +5,9 @@ $db=dbConnect();
 if (!isset($_SESSION["nip"])) {
     header("Location: login.php");
 }
+if ($_SESSION["jabatan"]<>"Pelayan") {
+    header("Location: pesanan.php?halaman=1");
+}
 $username = $_SESSION["nama"];
 $idPes = getName(5);
 if (strlen(isset($_SESSION["idPes"]) )== 0) {
@@ -111,7 +114,7 @@ if (isset($_GET["error"])) {
                                         <?php
                                     }
                                 }
-                                $datakategori = getListMeja();
+                                $datakategori = getListMeja($_SESSION['jumlahPel']);
                                 foreach ($datakategori as $data) {
                                     if($data['no_meja']==$meja){
                                         ?>

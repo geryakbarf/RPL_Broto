@@ -132,11 +132,11 @@ function getListDetailKebutuhan($idKebutuhan)
         return FALSE;
 }
 
-function getListMeja()
+function getListMeja($jumlah)
 {
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT * FROM meja WHERE Status ='Kosong' ORDER BY no_meja");
+        $res = $db->query("SELECT * FROM meja WHERE Status ='Kosong' AND jumlah_kursi >= '$jumlah' ORDER BY no_meja");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
