@@ -41,7 +41,7 @@ if ($db->connect_errno == 0) {
         $res1 = $db->query($sql1);
         if ($res1) {
             if ($db->affected_rows > 0) {
-                header("Location: ../tambah-pesanan.php?halaman=1");
+                header("Location: ../tambah-pesanan.php");
             }else echo "Error 1";
         }else echo "Error 2";
     } else {
@@ -58,7 +58,7 @@ if ($db->connect_errno == 0) {
                 $res3 = $db->query($sql3);
                 if ($res3) {
                     if ($db->affected_rows > 0) {
-                        header("Location: ../tambah-pesanan.php?halaman=1");
+                        header("Location: ../tambah-pesanan.php");
                     }else echo "Error 3";
                 }else echo "Error 4";
             }else echo "Error 5";

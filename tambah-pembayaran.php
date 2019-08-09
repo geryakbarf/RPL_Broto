@@ -81,7 +81,7 @@ $tanggal = date("Y-m-d H:i:s", strtotime('+5 hours'));
                             <div class="input-group" style="margin-top: 20px;">
                                 <div class="input-group-prepend"><span class="input-group-text">Nomor Pembayaran</span>
                                 </div>
-                                <form name="f" method="post" action="proses/proses-tambah-pembayaran.php">
+                                <form name="f" method="post" action="proses/proses-tambah-pembayaran.php" onsubmit="return validdasiData()">
                                 <input class="form-control" type="text" name="idPem" readonly
                                        value="<?php echo $id; ?>">
                                 <div class="input-group-append"></div>
@@ -157,6 +157,17 @@ $tanggal = date("Y-m-d H:i:s", strtotime('+5 hours'));
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/Studious-selectbox.js"></script>
 <script src="assets/js/theme.js"></script>
+<SCRIPT>
+    function validdasiData() {
+        var angka= document.f.kembalian.value;
+        if(isNaN(angka)){
+            alert("Masukkan Bayar Yang Valid!");
+            return false;
+        }
+
+        return true;
+    }
+</SCRIPT>
 <script>
     $(document).ready(function () {
         var subtotal = 0;
